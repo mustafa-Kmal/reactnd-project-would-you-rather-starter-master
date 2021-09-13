@@ -15,8 +15,10 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { connect } from "react-redux";
 
-function AnsweredQ() {
+
+function AnsweredQTile() {
   return (
     <div className='App'>
       <header className='App-header'>
@@ -87,4 +89,25 @@ function AnsweredQ() {
   );
 }
 
-export default AnsweredQ;
+
+
+
+
+function mapStateToProps({ authedUser, Questions }, { id }) {
+  const question = Questions[id];
+  return {
+    authedUser,
+    optionOne: question.optionOne,
+    
+    author : question.author
+
+    
+
+    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
+  };
+}
+
+export default connect(mapStateToProps)(AnsweredQTile);
+
+
+

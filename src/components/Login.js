@@ -1,3 +1,4 @@
+import React, { Component } from "react";
 import logo from "../logo.svg";
 import "../App.css";
 import Button from "react-bootstrap/Button";
@@ -16,8 +17,14 @@ import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
 import { Route } from "react-router-dom";
+import { render } from "@testing-library/react";
+import { connect } from "react-redux";
+import Dashboard from './Dashboard'
 
-function Login() {
+
+
+class  Login extends Component {
+render(){
   return (
     <div className='App'>
       <header className='App-header'>
@@ -48,44 +55,54 @@ function Login() {
               </Dropdown.Toggle>
 
               <Dropdown.Menu variant='dark'>
-              <Dropdown.Item>
+
+                {this.props.UsersIds.map((id)=>{
+                  const user = this.props.Users[id]
+                  return (
+                    <Dropdown.Item>
+                    {" "}
+                    <Link to={`/${user.name}/Dashboard`} className='link'>
+                      {user.name}
+                      {/* <Dashboard authUser={user}/> */}
+                    </Link>{" "}
+                  </Dropdown.Item>
+                  )
+                })}
+              {/* <Dropdown.Item>
                   {" "}
-                  <Link to='/User'  className='link'>
+                  <Link to='/User/Dashboard'  className='link'>
                     User 1
                   </Link>{" "}
                 </Dropdown.Item>
-                <br />
+                
 
 
                 
                 <Dropdown.Item>
                   {" "}
-                  <Link to='/User' className='link'>
+                  <Link to='/User/Dashboard' className='link'>
                     User 2
                   </Link>{" "}
                 </Dropdown.Item>
-                <br />
+                
 
 
                 <Dropdown.Item>
                   {" "}
-                  <Link to='/User' className='link'>
+                  <Link to='/User/Dashboard' className='link'>
                     User 3
                   </Link>{" "}
                 </Dropdown.Item>
-                <br />
+                
 
 
                 <Dropdown.Item>
                   {" "}
-                  <Link to='/User' className='link' >
+                  <Link to='/User/Dashboard' className='link' >
                     User 4
                   </Link>{" "}
-                </Dropdown.Item>
-                <br />
-
-
-                <br />
+                </Dropdown.Item> */}
+              
               </Dropdown.Menu>
             </Dropdown>
           </Container>
@@ -94,5 +111,15 @@ function Login() {
     </div>
   );
 }
+}
 
-export default Login;
+
+function mapStateToProps({ Users }) {
+  return {
+    UsersIds: Object.keys(Users),
+    Users,
+    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
+  };
+}
+
+export default connect(mapStateToProps)(Login);

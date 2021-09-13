@@ -1,5 +1,6 @@
-import logo from "../logo.svg";
-import "../App.css";
+import React, { Component } from "react";
+// import logo from "../logo.svg";
+// import "../App.css";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "react-bootstrap/Navbar";
@@ -15,13 +16,14 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import ListGroup from "react-bootstrap/ListGroup";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { connect } from "react-redux";
+import { render } from "@testing-library/react";
 
-function ListTile() {
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <br />
 
+class ListTile extends Component {
+  render() {
+    return (
+      <div className='App'>
         <Card
           bg={"dark"}
           // key={idx}
@@ -29,8 +31,7 @@ function ListTile() {
           border='dark'
           style={{ width: "100%" }}
           className='mb-2'>
-          <Card.Header>Sarah Edo</Card.Header>
-
+          <Card.Header>{this.props.user.name}</Card.Header>
           <Container>
             <Row>
               <Col xs={2}>
@@ -47,9 +48,11 @@ function ListTile() {
               <Col>
                 {" "}
                 <Card.Body>
-                  
-                  <Card.Text> Answered Question 15 </Card.Text>
-                  <Card.Text> Created Question 10</Card.Text>
+                  <Card.Text> Answered Question {this.props.answers}</Card.Text>
+                  <Card.Text>
+                    {" "}
+                    Created Question {this.props.questions}
+                  </Card.Text>
                 </Card.Body>
               </Col>
 
@@ -62,16 +65,39 @@ function ListTile() {
                   style={{ width: "6rem" }}
                   className='mb-2'>
                   <Card.Header>Score </Card.Header>
-                  <Card.Body  >25</Card.Body>
+                  <Card.Body>{this.props.points}</Card.Body>
                   <Container></Container>
                 </Card>
               </Col>
             </Row>
           </Container>
         </Card>
-      </header>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
-export default ListTile;
+function mapStateToProps({ authedUser, Users }, { id }) {
+  const User = Users[id];
+  const Answers =
+    typeof User.answers !== "undefined" ? Object.keys(User.answers).length : 0;
+  const Questions =
+    typeof User.questions !== "undefined"
+      ? Object.keys(User.questions).length
+      : 0;
+  const Points = Answers + Questions;
+
+  return {
+    authedUser,
+    answers: Answers,
+    questions: Questions,
+    points: Points,
+
+    Id: id,
+    user: User
+
+    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
+  };
+}
+
+export default connect(mapStateToProps)(ListTile);

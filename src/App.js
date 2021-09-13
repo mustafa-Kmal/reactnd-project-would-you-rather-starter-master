@@ -1,3 +1,4 @@
+import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Button from "react-bootstrap/Button";
@@ -9,8 +10,8 @@ import { Card } from "react-bootstrap";
 import { ButtonToolbar } from "react-bootstrap";
 import QuestionCard from "./components/QuestionCard";
 import NewQuestionCard from "./components/NewQuestionCard";
-import Results from "./components/Results";
-import ListTile from "./components/ListTile";
+import Results from "./components/Answered/Results";
+import ListTile from "./components/Leaderboard/ListTile";
 import Home from "./components/Home";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -20,62 +21,41 @@ import Login from "./components/Login";
 import Avatar from "react-avatar";
 import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { handleInitialData } from "./actions/shared";
+import Dashboard from "./components/Dashboard";
 
-function App() {
-  return (
-    <div className='App App-header'>
-      {/* <header className='App-header'> */}
+class App extends Component {
+  componentDidMount() {
+    this.props.dispatch(handleInitialData());
+  }
 
-      <Route exact path='/' render={() => <Login />} />
+  render() {
+    return (
+      <div className='App App-header'>
+        {/* <header className='App-header'> */}
 
-      <Tabs
-        fixed='top'
-        defaultActiveKey='profile'
-        id='uncontrolled-tab-example'
-        className='mb-3 tab'>
-        <Tab
-          eventKey='home'
-          title={
-            <Link className='link' to='/Home'>
-              Home
-            </Link>
-          }>
-          <Route exact path='/Home' render={() => <Home />} />
-        </Tab>
+        {/* <Route exact path='/' render={() => <Login />} /> */}
 
-        <Tab
-          eventKey='profile'
-          title={
-            <Link className='link' to='/NewQuestionCard'>
-              New Question
-            </Link>
-          }>
-          <Route
-            exact
-            path='/NewQuestionCard'
-            render={() => <NewQuestionCard />}
-          />
-        </Tab>
+        {/* <Route  path='/Dashboard' render={() => <Dashboard/>} /> */}
 
-        <Tab
-          eventKey='contact'
-          title={
-            <Link className='link' to='/Leader-Board'>
-              Leader Board
-            </Link>
-          }>
-          <Route exact path='/Leader-Board' render={() => <ListTile />} />
-        </Tab>
-        <Tab eventKey='contact' title={`Signed in as: user`} disabled>
-          {/* <ListTile /> */}
-        </Tab>
-      </Tabs>
+        {/* <Login /> */}
 
-      {/* <Route exact path='/User' render={() => {
-       
-      }} /> */}
-    </div>
-  );
+        {this.props.loading === true ? null : <Dashboard />}
+
+        {/* <Route exact path='/User' render={() => {
+         
+        }} /> */}
+      </div>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps( { authedUser }) {
+  return {
+    loading: authedUser === null,
+   
+  };
+}
+
+export default connect(mapStateToProps)(App);

@@ -59,3 +59,8 @@
   text-decoration: none;
   color:black;
 }
+
+.btn-block{
+  width: 100% ;
+  border: black 2px;
+}

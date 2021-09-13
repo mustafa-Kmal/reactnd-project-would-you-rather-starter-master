@@ -1,5 +1,7 @@
-import logo from "../logo.svg";
-import "../App.css";
+import React, { Component } from "react";
+
+// import logo from "../logo.svg";
+// import "../App.css";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "react-bootstrap/Navbar";
@@ -13,13 +15,20 @@ import Figure from "react-bootstrap/Figure";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
+import { connect } from "react-redux";
+import { handleSaveQuestionAnswer } from "../actions/questions";
+// import { Component } from "react";
 
-function QuestionCard() {
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <br />
+class QuestionCard extends Component {
+  handleAnswer = (qid, answer) => {
+    const { dispatch, question, authedUser } = this.props;
 
+    dispatch(handleSaveQuestionAnswer({ authedUser, qid, answer }));
+  };
+
+  render() {
+    return (
+      <div className='App'>
         <Card
           bg={"dark"}
           // key={idx}
@@ -46,37 +55,57 @@ function QuestionCard() {
                 {" "}
                 <Card.Body>
                   <Card.Title> Would you rather... </Card.Title>
-                  <Card.Text>
-                    Some quick example text to build on the card title and make
-                    up the bulk of the card's content.
-                  </Card.Text>
+                  <div class='btn-group'>
+                    <Button
+                      class='btn btn-primary btn-block'
+                      variant='secondary'
+                      size='md'
+                      onClick={() =>
+                        this.handleAnswer(
+                          this.props.id,
+                          'optionOne'
+                        )
+                      }>
+                      {this.props.optionOne.text}
+                    </Button>
 
-                  {/* the radio buttons should be disabled if there's no question available in case of new question  */}
-                  <div key={`default-radio`} className='mb-3'>
-                    <Form.Check
-                      type='radio'
-                      id={`default-radio`}
-                      label={`Option 1`}
-                    />
-
-                    <Form.Check
-                      type='radio'
-                      id={`default-radio`}
-                      label={`options 2`}
-                    />
+                    <Button
+                      class='btn btn-primary btn-block'
+                      variant='secondary'
+                      size='md'
+                      onClick={() =>
+                        this.handleAnswer(
+                          this.props.id,
+                          'optionTwo'
+                        )
+                      }>
+                      {this.props.optionTwo.text}
+                    </Button>
                   </div>
-
-                  <Button variant='secondary' size='md'>
-                    Submit
-                  </Button>
                 </Card.Body>
               </Col>
             </Row>
           </Container>
         </Card>
-      </header>
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
-export default QuestionCard;
+function mapStateToProps({ authedUser, Questions }, { id }) {
+  // console.log(  authedUser);
+  const Question = Questions[id];
+  return {
+    authedUser,
+    optionOne: Question.optionOne,
+    optionTwo: Question.optionTwo,
+    question: Question,
+    author: Question.author,
+    pollSize: Question.optionOne.votes.length + Question.optionTwo.votes.length,
+    id: id,
+
+    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
+  };
+}
+
+export default connect(mapStateToProps)(QuestionCard);
