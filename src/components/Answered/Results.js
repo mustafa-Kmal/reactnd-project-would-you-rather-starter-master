@@ -19,77 +19,89 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { connect } from "react-redux";
 import { render } from "@testing-library/react";
 import { Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 class Results extends Component {
   render() {
+    console.log(this.props.id);
+
     return (
-      <div className='App'>
-        <header className='App-header'>
-          <br />
+      <Route
+        // path={`/Dashboard/Home/Answered/${this.props.id}`}
+        path={`/`}
 
-          <Card
-            bg={"dark"}
-            // key={idx}
-            text={"white"}
-            border='dark'
-            style={{ width: "25rem" }}
-            className='mb-2'>
-            <Card.Header>Poll Asked By the user: </Card.Header>
+        render={() => {
+          return (
+            <div className='App'>
+              <header className='App-header'>
+                <Card
+                  bg={"dark"}
+                  // key={idx}
+                  text={"white"}
+                  border='dark'
+                  style={{ width: "25rem" }}
+                  className='mb-2'>
+                  <Card.Header>Poll Asked By the user: </Card.Header>
 
-            <Container>
-              <Row>
-                <Col xs={3}>
-                  {" "}
-                  <Figure>
-                    <Figure.Image
-                      width={171}
-                      height={180}
-                      alt='171x180'
-                      src='holder.js/171x180'
-                    />
-                  </Figure>
-                </Col>
-                <Col>
-                  {" "}
-                  <Card.Body>
-                    <Card.Title> Would you rather... </Card.Title>
-                    <ListGroup>
-                      <ListGroup.Item size='lg' action variant='dark'>
-                        {this.props.optionOne.text}
-                        <ProgressBar
-                          variant='light'
-                          now={
-                            this.props.optionOne.length / this.props.pollSize
-                          }
-                          label={`Option2 20%`}
-                          key={1}
-                        />
-                        {/* {console.log(this.props.optionOne.votes.length)} */}
-                        {this.props.optionOne.votes.length} out of{" "}
-                        {this.props.pollSize} votes
-                      </ListGroup.Item>
-                      <ListGroup.Item size='lg' action variant='dark' active>
-                        {this.props.optionTwo.text}
-                        <ProgressBar
-                          variant='secondary'
-                          now={
-                            this.props.optionTwo.votes.length / this.props.pollSize
-                          }
-                          label={`Option1 80%`}
-                          key={2}
-                        />
-                        {this.props.optionTwo.votes.length} out of{" "}
-                        {this.props.pollSize} votes
-                      </ListGroup.Item>
-                    </ListGroup>
-
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Container>
-          </Card>
-        </header>
-      </div>
+                  <Container>
+                    <Row>
+                      <Col xs={3}>
+                        <Figure>
+                          <Figure.Image
+                            width={171}
+                            height={180}
+                            alt='171x180'
+                            src='holder.js/171x180'
+                          />
+                        </Figure>
+                      </Col>
+                      <Col>
+                        <Card.Body>
+                          <Card.Title> Would you rather... </Card.Title>
+                          <ListGroup>
+                            <ListGroup.Item size='lg' action variant='dark'>
+                              {this.props.optionOne.text}
+                              <ProgressBar
+                                variant='light'
+                                now={
+                                  this.props.optionOne.length /
+                                  this.props.pollSize
+                                }
+                                label={`Option2 20%`}
+                                key={1}
+                              />
+                              {this.props.optionOne.votes.length} out of
+                              {this.props.pollSize} votes
+                            </ListGroup.Item>
+                            <ListGroup.Item
+                              size='lg'
+                              action
+                              variant='dark'
+                              active>
+                              {this.props.optionTwo.text}
+                              <ProgressBar
+                                variant='secondary'
+                                now={
+                                  this.props.optionTwo.votes.length /
+                                  this.props.pollSize
+                                }
+                                label={`Option1 80%`}
+                                key={2}
+                              />
+                              {this.props.optionTwo.votes.length} out of{" "}
+                              {this.props.pollSize} votes
+                            </ListGroup.Item>
+                          </ListGroup>
+                        </Card.Body>
+                      </Col>
+                    </Row>
+                  </Container>
+                </Card>
+              </header>
+            </div>
+          );
+        }}
+      />
     );
   }
 }
@@ -103,7 +115,7 @@ function mapStateToProps({ authedUser, Questions }, { id }) {
 
     author: question.author,
     pollSize: question.optionOne.votes.length + question.optionTwo.votes.length,
-    Id: id,
+    id,
 
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };

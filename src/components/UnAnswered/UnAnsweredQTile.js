@@ -62,16 +62,21 @@ class UnAnsweredQTile extends Component {
                   <Card.Title> Would you rather... </Card.Title>
                   <Card.Text>{this.props.optionOne.text}</Card.Text>
 
-                  <Button variant='secondary' size='md'>
-                    View Poll
-                    {/* <Results id={this.props.Id} /> */}
+                  <Button
+                    variant='secondary'
+                    size='md'
+                    onClick={() => <QuestionCard id={this.props.id} />}>
+                    <Link
+                      className='link'
+                      to={`/Dashboard/Home/Unanswered/${this.props.id}`}>
+                      View this Poll
+                    </Link>
                   </Button>
                 </Card.Body>
               </Col>
             </Row>
           </Container>
         </Card>
-        <QuestionCard id={this.props.Id}/>
       </div>
       // </Link>
     );
@@ -86,7 +91,7 @@ function mapStateToProps({ authedUser, Questions }, { id, avatar }) {
 
     author: question.author,
     avatar: avatar,
-    Id: id,
+    id,
 
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };

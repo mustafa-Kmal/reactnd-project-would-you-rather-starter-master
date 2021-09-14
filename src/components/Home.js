@@ -27,41 +27,79 @@ import { Route } from "react-router-dom";
 import { render } from "@testing-library/react";
 import { connect } from "react-redux";
 import { Component } from "react";
+import Results from "./Answered/Results";
+
 
 class Home extends Component {
+  state = {
+    ShowingAnswered: true,
+    ShowingAnsweredId: '',
+  };
+
+  handleToggleShowing = () => {
+    const toggle = this.state.ShowingAnswered
+    this.setState((currState) => ({
+      ShowingAnswered: !toggle,
+    }));
+  };
+
+
+  handleId = (id) => {
+    this.setState((currState) => ({
+      ShowingAnsweredId: id,
+    }));
+  };
   render() {
+
     return (
-      <div className='App'>
-        {/* <header className='App-header'> */}
-        <header>
-          <Tabs
-            defaultActiveKey='Answered Questions'
-            id='uncontrolled-tab-example'
-            className='mb-3 second-tab'>
-            <Tab
-              eventKey='Answered Questions'
-              title='Answered Questions'
-              className='link'>
-              <AnsedQList AnsedQs={this.props.AnsedQs}/>
-            </Tab>
-            <Tab
-              eventKey='Unanswered Questions'
-              title='Unanswered Questions'
-              className='link'>
-
-              <UnAnsedQList UnAnsedQs={this.props.UnAnsedQs}/>
-            </Tab>
-          </Tabs>
-
-          <br />
-        </header>
-      </div>
+      <Route
+        path='/Dashboard/Home'
+        render={() => {
+          return (
+            <div className='App second-tab'>
+              <Tabs
+                defaultActiveKey='Answered Questions'
+                id='uncontrolled-tab-example'
+                className='mb-3 second-tab'>
+                <Tab
+                  eventKey='Answered Questions'
+                  title={
+                    <Link className='link' to='/Dashboard/Home/Answered'>
+                      Answered Questions
+                    </Link>
+                  }
+                  onClick={this.handleToggleShowing}
+                  className='link'>
+                  {this.state.ShowingAnswered === true ? 
+                  <AnsedQList
+                  AnsedQs={this.props.AnsedQs}
+                  showingAnsweredState={this.state.ShowingAnswered}
+                  toggleView={this.handleToggleShowing}
+                  handleId={this.handleId}
+                />: <Results  id={this.state.ShowingAnsweredId} />
+                }
+                </Tab>
+                <Tab
+                  eventKey='Unanswered Questions'
+                  title={
+                    <Link className='link' to='/Dashboard/Home/Unanswered'>
+                      Unanswered Questions
+                    </Link>
+                  }
+                  className='link'>
+                  <UnAnsedQList UnAnsedQs={this.props.UnAnsedQs} />
+                </Tab>
+              </Tabs>
+            </div>
+          );
+        }}
+      />
     );
   }
 }
 
 function mapStateToProps({ authedUser, Questions, Users }) {
-  const AnsedQs = []
+  const AnsedQs = [];
   const UnAnsedQs = [];
   Object.entries(Questions).map((q) => {
     // console.log(q[1])
@@ -69,8 +107,7 @@ function mapStateToProps({ authedUser, Questions, Users }) {
     const op2 = q[1].optionTwo.votes;
     if (!op1.includes(authedUser) && !op2.includes(authedUser)) {
       UnAnsedQs.push(q[1].id);
-    }
-    else {
+    } else {
       AnsedQs.push(q[1].id);
     }
   });

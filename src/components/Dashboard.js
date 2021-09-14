@@ -12,7 +12,7 @@ import QuestionCard from "./QuestionCard";
 import NewQuestionCard from "./NewQuestionCard";
 import Results from "./Answered/Results";
 import ListTile from "./Leaderboard/ListTile";
-import LeaderboardList from './Leaderboard/LeaderboardList'
+import LeaderboardList from "./Leaderboard/LeaderboardList";
 import Home from "./Home";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -23,72 +23,73 @@ import Avatar from "react-avatar";
 import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { handleInitialData } from "../actions/shared";
+import { handleInitialUsers, handleInitialDataUser } from "../actions/shared";
 
 class Dashboard extends Component {
-  componentDidMount() {
-    this.props.dispatch(handleInitialData());
-  }
+  handleLogout = () => {
+    this.props.dispatch(handleInitialDataUser(null));
+  };
 
   render() {
-    // console.log(this.props);ss
-
     return (
       <div className='App App-header'>
         {/* <header className='App-header'> */}
 
         <Tabs
-          defaultActiveKey='Home'
+        //   defaultActiveKey='Home'
           id='uncontrolled-tab-example'
           className='mb-3 tab'>
           <Tab
             eventKey='Home'
             title={
-              "Home"
-              //   <Link className='link' to='/User/Dashboard/Home'>
-              //     Home
-              //   </Link>
+              <Link className='link' to='/Dashboard/Home/Answered'>
+                Home
+              </Link>
             }>
-            {/* <Route exact path='/User/Dashboard/Home' render={() => <Home />} /> */}
-            <Home authUser={"johndoe"}/>
+            <Home />
           </Tab>
 
           <Tab
-            eventKey='profile'
+            eventKey='New Question'
             title={
-              "New Question"
-              //   <Link className='link' to='/User/Dashboard/NewQuestionCard'>
-              //     New Question
-              //   </Link>
+              <Link className='link' to='/Dashboard/NewQuestionCard'>
+                New Question
+              </Link>
             }>
-            {/* <Route
-              exact
-              path='/User/Dashboard/NewQuestionCard'
-              render={() => <NewQuestionCard />}
-            /> */}
-            <NewQuestionCard authUser={"johndoe"}/>
+            <NewQuestionCard />
           </Tab>
 
           <Tab
-            eventKey='contact'
+            eventKey='Leader-Board'
             title={
-              "Leader Board"
-              //   <Link className='link' to='/User/Dashboard/Leader-Board'>
-              //     Leader Board
-              //   </Link>
+              <Link className='link' to='/Dashboard/Leader-Board'>
+                Leader Board
+              </Link>
             }>
-            {/* <Route exact path='/User/Dashboard/Leader-Board' render={() => <ListTile />} /> */}
-            <LeaderboardList authUser={"johndoe"}/>
+            <LeaderboardList />
           </Tab>
-          <Tab eventKey='contact' title={`Signed in as: ${this.props.authedUser}`} disabled></Tab>
+
+          <Tab
+            eventKey='user'
+            title={`Signed in as: ${this.props.authedUser}`}
+            disabled></Tab>
+
+          <Tab
+            eventKey='logout'
+            // title={`Signed in as: ${this.props.authedUser}`}
+
+            title={
+              <Link className='link' to='/'>
+                Log out
+              </Link>
+            }></Tab>
         </Tabs>
-
       </div>
     );
   }
 }
 
-function mapStateToProps({ Questions , authedUser}  ) {
+function mapStateToProps({ Questions, authedUser }) {
   return {
     QuestionsIds: Object.keys(Questions),
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})

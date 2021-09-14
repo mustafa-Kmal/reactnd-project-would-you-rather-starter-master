@@ -27,8 +27,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 class AnsweredQTile extends Component {
   render() {
     return (
-      // <Link to={`/question/${this.props.id}`} className='link'>
-      <div className='App'>
+      <Link to={`/Dashboard/Home/Answered/${this.props.id}`} className='App link'>
         <Card
           size='sm'
           bg={"dark"}
@@ -57,8 +56,21 @@ class AnsweredQTile extends Component {
                   <Card.Title> Would you rather... </Card.Title>
                   <Card.Text>{this.props.optionOne.text}</Card.Text>
 
-                  <Button variant='secondary' size='md'>
-                    View Poll
+                  <Button
+                    variant='secondary'
+                    size='md'
+                    onClick={() => {
+                      this.props.toggleView()
+                      this.props.handleId(this.props.id)
+                      // return <Results id={this.props.id} />
+                    }}
+                    >
+                    <Link
+                      className='link'
+                      to={`/Dashboard/Home/Answered/question:${this.props.id}`}
+                      >
+                      View This Poll
+                    </Link>
                   </Button>
                 </Card.Body>
               </Col>
@@ -66,13 +78,12 @@ class AnsweredQTile extends Component {
           </Container>
         </Card>
         {/* <Results id={this.props.Id} /> */}
-      </div>
-      // </Link>
+      </Link>
     );
   }
 }
 
-function mapStateToProps({ authedUser, Questions }, { id, avatar }) {
+function mapStateToProps({ authedUser, Questions }, { id, avatar , toggleView , handleId }) {
   const question = Questions[id];
   return {
     authedUser,
@@ -80,7 +91,9 @@ function mapStateToProps({ authedUser, Questions }, { id, avatar }) {
 
     author: question.author,
     avatar: avatar,
-    Id: id,
+    id,
+    toggleView,
+    handleId
 
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };

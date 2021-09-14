@@ -19,102 +19,66 @@ import { Link } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { render } from "@testing-library/react";
 import { connect } from "react-redux";
-import Dashboard from './Dashboard'
+import Dashboard from "./Dashboard";
+import { handleInitialData } from "../actions/shared";
 
+class Login extends Component {
+  state = {
+    selelctedUser: "",
+  };
 
+  handleChoosenUser2 = (user) => {
+    this.props.handleChoosenUser(user);
+  };
 
-class  Login extends Component {
-render(){
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <br />
+  render() {
+    return (
+      <div className='App'>
+        <header className='App-header'>
+          <br />
 
-        <Card
-          bg={"dark"}
-          // key={idx}
-          text={"white"}
-          border='dark'
-          style={{ width: "25rem" }}
-          className='mb-2'>
-          <Card.Header>Select User to login </Card.Header>
+          <Card
+            bg={"dark"}
+            // key={idx}
+            text={"white"}
+            border='dark'
+            style={{ width: "25rem" }}
+            className='mb-2'>
+            <Card.Header>Select User to login </Card.Header>
 
-          <Container>
-            {/* <Form.Select aria-label='Default select example'>
-              <option>Select User to login </option>
-              <option value='1'>One</option>
-              <option value='2'>Two</option>
-              <option value='3'>Three</option>
-            </Form.Select> */}
+            <Container>
+              <Dropdown>
+                <Dropdown.Toggle
+                  id='dropdown-button-dark-example1'
+                  variant='secondary'>
+                  {this.state.selelctedUser === ""
+                    ? "Select a User"
+                    : this.state.selelctedUser}
+                </Dropdown.Toggle>
 
-            <Dropdown>
-              <Dropdown.Toggle
-                id='dropdown-button-dark-example1'
-                variant='secondary'>
-                Select User
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu variant='dark'>
-
-                {this.props.UsersIds.map((id)=>{
-                  const user = this.props.Users[id]
-                  return (
-                    <Dropdown.Item>
-                    {" "}
-                    <Link to={`/${user.name}/Dashboard`} className='link'>
-                      {user.name}
-                      {/* <Dashboard authUser={user}/> */}
-                    </Link>{" "}
-                  </Dropdown.Item>
-                  )
-                })}
-              {/* <Dropdown.Item>
-                  {" "}
-                  <Link to='/User/Dashboard'  className='link'>
-                    User 1
-                  </Link>{" "}
-                </Dropdown.Item>
-                
-
-
-                
-                <Dropdown.Item>
-                  {" "}
-                  <Link to='/User/Dashboard' className='link'>
-                    User 2
-                  </Link>{" "}
-                </Dropdown.Item>
-                
-
-
-                <Dropdown.Item>
-                  {" "}
-                  <Link to='/User/Dashboard' className='link'>
-                    User 3
-                  </Link>{" "}
-                </Dropdown.Item>
-                
-
-
-                <Dropdown.Item>
-                  {" "}
-                  <Link to='/User/Dashboard' className='link' >
-                    User 4
-                  </Link>{" "}
-                </Dropdown.Item> */}
-              
-              </Dropdown.Menu>
-            </Dropdown>
-          </Container>
-        </Card>
-      </header>
-    </div>
-  );
-}
+                <Dropdown.Menu variant='dark'>
+                  {this.props.UsersIds.map((id) => {
+                    const user = this.props.Users[id];
+                    return (
+                      <Dropdown.Item
+                        onClick={() => this.handleChoosenUser2(id)}>
+                        <Link to={`/Dashboard/Home/Answered`} className='link'>
+                          {user.name}
+                        </Link>
+                      </Dropdown.Item>
+                    );
+                  })}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Container>
+          </Card>
+        </header>
+      </div>
+    );
+  }
 }
 
-
-function mapStateToProps({ Users }) {
+function mapStateToProps({ Users }, { handleChoosenUser }) {
   return {
     UsersIds: Object.keys(Users),
     Users,

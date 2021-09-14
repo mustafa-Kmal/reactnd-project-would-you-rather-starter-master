@@ -7,3 +7,14 @@ export function SetAuthedUser (id){
     }
 
 }
+
+// export function handleSaveAuthedUser(info) {
+//     return (dispatch) => {
+//       dispatch(SaveQuestionAnswer(info));
+//       return saveQuestionAnswer(info).catch((e) => {
+//         console.warn("Error in handling saving the answer ", e);
+//         dispatch(SaveQuestionAnswer(info));
+//         alert("The was an error liking the tweet. Try again.");
+//       });
+//     };
+//   }

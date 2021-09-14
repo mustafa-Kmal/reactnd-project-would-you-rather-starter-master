@@ -20,39 +20,40 @@ import { connect } from "react-redux";
 import { Component } from "react";
 import { handleInitialData } from "../../actions/shared";
 import ListTile from "./ListTile";
+import { Route } from "react-router-dom";
+
 
 class LeaderboardList extends Component {
-  componentDidMount() {
-    this.props.dispatch(handleInitialData());
-  }
-
   render() {
-    // console.log(this.props.questions);
     return (
-      <div className='App'>
-        <header className='App-header'>
-        
-          <ul>
-            {this.props.UsersIds.map((id) => {
-              return (
-                <li key={id}>
-                 
-                  
-                  <ListTile id={id}/>
-                </li>
-              );
-            })}
-          </ul>
-        </header>
-      </div>
+      <Route
+        path='/Dashboard/Leader-Board'
+        render={() => {
+          return (
+            <div className='App'>
+              <header className='App-header'>
+                <ul>
+                  {this.props.UsersIds.map((id) => {
+                    return (
+                      <li key={id}>
+                        <ListTile id={id} />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </header>
+            </div>
+          );
+        }}
+      />
     );
   }
 }
-function mapStateToProps({  Users }) {
+function mapStateToProps({ Users }) {
   return {
     UsersIds: Object.keys(Users),
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
-    
+
     users: Users,
   };
 }

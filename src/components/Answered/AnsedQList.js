@@ -18,37 +18,65 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import formatQuestion from "../../utils/api";
 import { connect } from "react-redux";
 import { Component } from "react";
-import { handleInitialData } from "../../actions/shared";
+// import { handleInitialData } from "../../actions/shared";
 import AnsweredQTile from "./AnsweredQTile";
+import { Route } from "react-router-dom";
+import Results from "./Results";
 
 class AnsedQList extends Component {
-  componentDidMount() {
-    this.props.dispatch(handleInitialData());
-  }
+  state = {
+    Showing: this.props.showingAnsweredState,
+    // Showing: false,
+  };
+
+  handleToggleShowing = () => {
+    this.setState((currState) => ({
+      Showing: !currState.Showing,
+    }));
+  };
 
   render() {
-    // console.log(this.props.questions);
+    console.log("......................state is: ", this.state.Showing);
     return (
-      <div className='App'>
-        <ul>
-          {this.props.QuestionsIds.map((id) => {
+      <div>
+        <Route
+          path='/Dashboard/Home/Answered'
+          render={() => {
             return (
-              <li key={id}>
-                <AnsweredQTile id={id} />
-              </li>
+              <div className='App'>
+                <ul>
+                  {this.props.QuestionsIds.map((id) => {
+                    return (
+                      <li key={id}>
+                        <AnsweredQTile
+                          toggleView={this.props.toggleView}
+                          id={id}
+                          handleId={this.props.handleId}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             );
-          })}
-        </ul>
+          }}
+        />
       </div>
     );
   }
 }
-function mapStateToProps({ Questions, Users }, { AnsedQs }) {
+function mapStateToProps(
+  { Questions, Users },
+  { AnsedQs, toggleView, showingAnsweredState, handleId }
+) {
   return {
-    QuestionsIds:AnsedQs,
+    QuestionsIds: AnsedQs,
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
     questions: Questions,
     users: Users,
+    toggleView,
+    showingAnsweredState,
+    handleId,
   };
 }
 

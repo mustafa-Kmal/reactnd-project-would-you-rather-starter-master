@@ -22,26 +22,52 @@ import Avatar from "react-avatar";
 import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { handleInitialData } from "./actions/shared";
+import { handleInitialUsers, handleInitialDataUser } from "./actions/shared";
 import Dashboard from "./components/Dashboard";
 
 class App extends Component {
+  state = {
+    selelctedUser: "",
+  };
   componentDidMount() {
-    this.props.dispatch(handleInitialData());
+    this.props.dispatch(handleInitialUsers());
   }
+
+  handleChoosenUser = (user) => {
+    // console.log(user);
+    const USER = this.props.Users[user];
+    // this.setState(() => ({
+    //   selelctedUser: USER.id
+    // }))
+    this.props.dispatch(handleInitialDataUser(USER.id));
+  };
 
   render() {
     return (
       <div className='App App-header'>
         {/* <header className='App-header'> */}
 
-        {/* <Route exact path='/' render={() => <Login />} /> */}
+        <Route
+          exact
+          path='/'
+          render={() => {
+            return this.props.loadingUsers === true ? null : (
+              <Login handleChoosenUser={this.handleChoosenUser} />
+            );
+          }}
+        />
 
-        {/* <Route  path='/Dashboard' render={() => <Dashboard/>} /> */}
-
-        {/* <Login /> */}
-
-        {this.props.loading === true ? null : <Dashboard />}
+        <Route
+          
+          path='/Dashboard'
+          render={() => {
+            return this.props.loadingQuestions === true ||
+              this.props.loadingauthedUser === true ? null : (
+              <Dashboard />
+            );
+          }}
+        />
+        {/* <Route exact path='/Dashboard/Home' render={() => <Home />} /> */}
 
         {/* <Route exact path='/User' render={() => {
          
@@ -51,10 +77,13 @@ class App extends Component {
   }
 }
 
-function mapStateToProps( { authedUser }) {
+function mapStateToProps({ Users, authedUser, Questions }) {
   return {
-    loading: authedUser === null,
-   
+    loadingUsers: Users === null,
+    loadingQuestions: Questions === null,
+    loadingauthedUser: authedUser === null,
+
+    Users,
   };
 }
 

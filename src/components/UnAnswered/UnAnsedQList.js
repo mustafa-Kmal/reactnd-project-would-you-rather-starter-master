@@ -18,28 +18,33 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import formatQuestion from "../../utils/api";
 import { connect } from "react-redux";
 import { Component } from "react";
-import { handleInitialData } from "../../actions/shared";
+// import { handleInitialData } from "../../actions/shared";
 import UnAnsweredQTile from "./UnAnsweredQTile";
+import { Route } from "react-router-dom";
+
 
 class UnAnsedQList extends Component {
-  componentDidMount() {
-    this.props.dispatch(handleInitialData());
-  }
-
   render() {
-    // console.log(this.props);
     return (
-      <div className='App'>
-        <ul>
-          {this.props.QuestionsIds.map((id) => {
-            return (
-              <li key={id}>
-                <UnAnsweredQTile id={id} />
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <Route
+      exact
+        path='/Dashboard/Home/Unanswered'
+        render={() => {
+          return (
+            <div className='App'>
+              <ul>
+                {this.props.QuestionsIds.map((id) => {
+                  return (
+                    <li key={id}>
+                      <UnAnsweredQTile id={id} />
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        }}
+      />
     );
   }
 }
