@@ -4,19 +4,12 @@ import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import { Card } from "react-bootstrap";
-import { ButtonToolbar } from "react-bootstrap";
-import FigureCaption from "react-bootstrap/FigureCaption";
-import FigureImage from "react-bootstrap/FigureImage";
-import Figure from "react-bootstrap/Figure";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import { handleAddQuestion } from "../actions/questions";
 import { connect } from "react-redux";
-import { Route , Link , Redirect} from "react-router-dom";
-
-
-
+import { Route, Link } from "react-router-dom";
+// import PrivateRoute from "../components/PrivateRoute";
 
 class NewQuestionCard extends Component {
   state = {
@@ -44,8 +37,14 @@ class NewQuestionCard extends Component {
     e.preventDefault();
     // const {authedUser} = this.props
 
+    // onClick={() => {
+    //   this.handleAddNewQ;
+    //   this.props.toggleTabView;
+    // }}
+
+    
     const { optionOneText, optionTwoText } = this.state;
-    const { dispatch, authedUser } = this.props;
+    const { dispatch } = this.props;
 
     const questionDispatched = {
       optionOneText,
@@ -56,14 +55,15 @@ class NewQuestionCard extends Component {
     this.setState(() => ({
       optionOneText: "",
       optionTwoText: "",
-      toHome:  true,
+      toHome: true,
     }));
+
+    this.props.toggleTabView('Home');
   };
   render() {
-   
     return (
       <Route
-        path='/Dashboard/NewQuestionCard'
+        path='/Dashboard/add'
         render={() => {
           return (
             <div className='App'>
@@ -77,60 +77,46 @@ class NewQuestionCard extends Component {
                 <Card.Header>New Poll will be added by You </Card.Header>
 
                 <Container>
-                  <Row>
-                    <Col xs={3}>
-                      {" "}
-                      <Figure>
-                        <Figure.Image
-                          width={171}
-                          height={180}
-                          alt='171x180'
-                          src='holder.js/171x180'
-                        />
-                      </Figure>
-                    </Col>
+                  <Card.Body>
+                    <Card.Title> Would you rather... </Card.Title>
                     <Col>
-                      {" "}
-                      <Card.Body>
-                        <Card.Title> Would you rather... </Card.Title>
-                        <Col>
-                            <Form.Control
-                              size='sm'
-                              type='text'
-                              placeholder='Option 1 goes here'
-                              onChange={this.handleChangeOptionOne}
-                              value={this.state.optionOne}
-                            />
-                          </Col>
-                          ــــــــــــــــ OR ــــــــــــــــ
-                          <br />
-                          <Col>
-                            <Form.Control
-                              size='sm'
-                              type='text'
-                              placeholder='Option 2 goes here'
-                              onChange={this.handleChangeOptionTwo}
-                              value={this.state.optionTwo}
-                            />
-                          </Col>
-
-                        <Button
-                          variant='secondary'
-                          size='md'
-                          disabled={
-                            this.state.optionOne === "" ||
-                            this.state.optionTwo === ""
-                          }
-                          onClick={this.handleAddNewQ}>
-                          <Link
-                            className='link'
-                            to='/Dashboard/Home/Unanswered'>
-                            Submit
-                          </Link>
-                        </Button>
-                      </Card.Body>
+                      <Form.Control
+                        size='sm'
+                        type='text'
+                        placeholder='Option 1 goes here'
+                        onChange={this.handleChangeOptionOne}
+                        value={this.state.optionOne}
+                      />
                     </Col>
-                  </Row>
+                    ــــــــــــــــ OR ــــــــــــــــ
+                    <br />
+                    <Col>
+                      <Form.Control
+                        size='sm'
+                        type='text'
+                        placeholder='Option 2 goes here'
+                        onChange={this.handleChangeOptionTwo}
+                        value={this.state.optionTwo}
+                      />
+                    </Col>
+                    <Button
+                      variant='secondary'
+                      size='md'
+                      disabled={
+                        this.state.optionOne === "" ||
+                        this.state.optionTwo === ""
+                      }
+                      onClick={this.handleAddNewQ}
+                      // onClick={() => {
+                      //   this.handleAddNewQ;
+                      //   this.props.toggleTabView;
+                      // }}
+                    >
+                      <Link className='link' to='/Dashboard/Home/Unanswered'>
+                        Submit
+                      </Link>
+                    </Button>
+                  </Card.Body>
                 </Container>
               </Card>
             </div>
@@ -141,11 +127,10 @@ class NewQuestionCard extends Component {
   }
 }
 
-function mapStateToProps({ authedUser }) {
+function mapStateToProps({ authedUser }, { toggleTabView }) {
   return {
-    // QuestionsIds: Object.keys(Questions),
-    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
     authedUser,
+    toggleTabView,
   };
 }
 

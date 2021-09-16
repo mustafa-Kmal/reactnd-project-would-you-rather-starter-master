@@ -1,34 +1,37 @@
 import React, { Component } from "react";
-// import logo from "./logoss.svg";
-// import "./App.css";
-import Button from "react-bootstrap/Button";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
-import { Card } from "react-bootstrap";
-import { ButtonToolbar } from "react-bootstrap";
-import QuestionCard from "./QuestionCard";
 import NewQuestionCard from "./NewQuestionCard";
-import Results from "./Answered/Results";
-import ListTile from "./Leaderboard/ListTile";
 import LeaderboardList from "./Leaderboard/LeaderboardList";
 import Home from "./Home";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Login from "./Login";
-import Avatar from "react-avatar";
-import { Route } from "react-router-dom";
+// import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { handleInitialUsers, handleInitialDataUser } from "../actions/shared";
+import { handleInitialDataUser } from "../actions/shared";
 
 class Dashboard extends Component {
+  state = {
+    ShowingAnswered: true,
+    ShowingAnsweredId: "",
+    ShowingUnAnswered: true,
+    ShowingUnAnsweredId: "",
+    activeKey: "Home",
+  };
+
+  handleactiveKey = (key) => {
+    // console.log("active key is : ", this.state.activeKey);
+    this.setState(() => ({
+      activeKey: key,
+    }));
+  };
+
   handleLogout = () => {
     this.props.dispatch(handleInitialDataUser(null));
   };
+
+  //   handleLogout = () =>{
+
+  //   }
 
   render() {
     return (
@@ -36,13 +39,19 @@ class Dashboard extends Component {
         {/* <header className='App-header'> */}
 
         <Tabs
-        //   defaultActiveKey='Home'
+          activeKey={this.state.activeKey}
+          defaultActiveKey='Home'
           id='uncontrolled-tab-example'
           className='mb-3 tab'>
           <Tab
             eventKey='Home'
             title={
-              <Link className='link' to='/Dashboard/Home/Answered'>
+              <Link
+                className='link'
+                to='/Dashboard/Home/Unanswered'
+                onClick={() => {
+                  this.handleactiveKey("Home");
+                }}>
                 Home
               </Link>
             }>
@@ -52,17 +61,27 @@ class Dashboard extends Component {
           <Tab
             eventKey='New Question'
             title={
-              <Link className='link' to='/Dashboard/NewQuestionCard'>
+              <Link
+                className='link'
+                to='/Dashboard/add'
+                onClick={() => {
+                  this.handleactiveKey("New Question");
+                }}>
                 New Question
               </Link>
             }>
-            <NewQuestionCard />
+            <NewQuestionCard toggleTabView={this.handleactiveKey} />
           </Tab>
 
           <Tab
             eventKey='Leader-Board'
             title={
-              <Link className='link' to='/Dashboard/Leader-Board'>
+              <Link
+                className='link'
+                to='/Dashboard/Leader-Board'
+                onClick={() => {
+                  this.handleactiveKey("Leader-Board");
+                }}>
                 Leader Board
               </Link>
             }>
@@ -71,7 +90,7 @@ class Dashboard extends Component {
 
           <Tab
             eventKey='user'
-            title={`Signed in as: ${this.props.authedUser}`}
+            title={`Signed in as: ${this.props.name}`}
             disabled></Tab>
 
           <Tab
@@ -79,7 +98,7 @@ class Dashboard extends Component {
             // title={`Signed in as: ${this.props.authedUser}`}
 
             title={
-              <Link className='link' to='/'>
+              <Link className='link' to='/' onClick={this.handleLogout}>
                 Log out
               </Link>
             }></Tab>
@@ -89,11 +108,12 @@ class Dashboard extends Component {
   }
 }
 
-function mapStateToProps({ Questions, authedUser }) {
+function mapStateToProps({ Questions, authedUser, Users }) {
+  const name = Users[authedUser].name;
   return {
     QuestionsIds: Object.keys(Questions),
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
-    authedUser,
+    name,
   };
 }
 

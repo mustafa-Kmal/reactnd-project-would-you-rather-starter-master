@@ -4,96 +4,92 @@ import React, { Component } from "react";
 // import "../App.css";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { Card } from "react-bootstrap";
-import { ButtonToolbar } from "react-bootstrap";
-import FigureCaption from "react-bootstrap/FigureCaption";
-import FigureImage from "react-bootstrap/FigureImage";
 import Figure from "react-bootstrap/Figure";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import ListGroup from "react-bootstrap/ListGroup";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import { connect } from "react-redux";
-import { render } from "@testing-library/react";
-import Results from "./Results";
 // import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+// import { BrowserRouter as Routesr, Route } from "react-router-dom";
+import Results from "./Results";
 
 class AnsweredQTile extends Component {
+  handleShowing = (id) => {
+    this.props.toggleView();
+    this.props.handleId(id);
+  };
   render() {
     return (
-      <Link to={`/Dashboard/Home/Answered/${this.props.id}`} className='App link'>
-        <Card
-          size='sm'
-          bg={"dark"}
-          // key={idx}
-          text={"white"}
-          border='dark'
-          style={{ width: "25rem" }}
-          className='mb-2'>
-          <Card.Header>{this.props.author} asks: </Card.Header>
+      <Card
+        size='sm'
+        bg={"dark"}
+        // key={idx}
+        text={"white"}
+        border='dark'
+        style={{ width: "25rem" }}
+        className='mb-2 second-tab'>
+        <Card.Header>{this.props.author} asks: </Card.Header>
 
-          <Container>
-            <Row>
-              <Col xs={3}>
-                <Figure>
-                  <Figure.Image
-                    width={171}
-                    height={180}
-                    alt='171x180'
-                    src='holder.js/171x180'
-                  />
-                  {this.props.avatar}
-                </Figure>
-              </Col>
-              <Col>
-                <Card.Body>
-                  <Card.Title> Would you rather... </Card.Title>
-                  <Card.Text>{this.props.optionOne.text}</Card.Text>
+        <Container>
+          <Row>
+            <Col xs={3}>
+              <Figure>
+                <Figure.Image
+                  width={171}
+                  height={180}
+                  alt='17x18'
+                  src={this.props.avatar}
+                />
+              </Figure>
+            </Col>
+            <Col>
+              <Card.Body>
+                <Card.Title> Would you rather... </Card.Title>
+                <Card.Text>{this.props.optionOne.text}</Card.Text>
 
-                  <Button
-                    variant='secondary'
-                    size='md'
-                    onClick={() => {
-                      this.props.toggleView()
-                      this.props.handleId(this.props.id)
-                      // return <Results id={this.props.id} />
-                    }}
-                    >
-                    <Link
-                      className='link'
-                      to={`/Dashboard/Home/Answered/question:${this.props.id}`}
-                      >
-                      View This Poll
-                    </Link>
-                  </Button>
-                </Card.Body>
-              </Col>
-            </Row>
-          </Container>
-        </Card>
+                <Button
+                  variant='secondary'
+                  size='md'
+                  onClick={() => {
+                    this.handleShowing(this.props.id);
+                  }}>
+                  <Link
+                    className='link'
+                    to={`/question:${this.props.id}`}
+                    // onClick={() => {
+                    //   console.log(this.props.id);
+                    // }}
+                  >
+                    View This Poll
+                  </Link>
+                </Button>
+              </Card.Body>
+            </Col>
+          </Row>
+        </Container>
         {/* <Results id={this.props.Id} /> */}
-      </Link>
+      </Card>
     );
   }
 }
 
-function mapStateToProps({ authedUser, Questions }, { id, avatar , toggleView , handleId }) {
+function mapStateToProps(
+  { authedUser, Questions, Users },
+  { id, toggleView, handleId }
+) {
   const question = Questions[id];
+  const avatar = Users[question.author].avatarURL;
   return {
     authedUser,
     optionOne: question.optionOne,
 
-    author: question.author,
-    avatar: avatar,
+    author: Users[question.author].name,
+    avatar,
     id,
     toggleView,
-    handleId
+    handleId,
 
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };

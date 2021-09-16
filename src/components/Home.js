@@ -1,93 +1,160 @@
-import logo from "../logo.svg";
 import "../App.css";
-import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
-import { Card } from "react-bootstrap";
-import { ButtonToolbar } from "react-bootstrap";
-import FigureCaption from "react-bootstrap/FigureCaption";
-import FigureImage from "react-bootstrap/FigureImage";
-import Figure from "react-bootstrap/Figure";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import ListGroup from "react-bootstrap/ListGroup";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import QuestionCard from "./QuestionCard";
-import AnsweredQTile from "./Answered/AnsweredQTile";
+import QuestionCard from "./UnAnswered/QuestionCard";
 import AnsedQList from "./Answered/AnsedQList";
 import UnAnsedQList from "./UnAnswered/UnAnsedQList";
-
 import { Link } from "react-router-dom";
 import { Route } from "react-router-dom";
-import { render } from "@testing-library/react";
 import { connect } from "react-redux";
 import { Component } from "react";
 import Results from "./Answered/Results";
+// import PrivateRoute from "./PrivateRoute";
 
 
 class Home extends Component {
   state = {
     ShowingAnswered: true,
-    ShowingAnsweredId: '',
+    ShowingAnsweredId: "",
+    ShowingUnAnswered: true,
+    ShowingUnAnsweredId: "",
+    ShowingResults: false,
+    activeKey: "Unanswered Questions",
+  };
+
+  handleactiveKey = (key) => {
+    // console.log("active key is : ", this.state.activeKey);
+    this.setState(() => ({
+      activeKey: key,
+    }));
+  };
+
+  handleShowingResults = () => {
+    const toggle = this.state.ShowingResults;
+    this.setState(() => ({
+      ShowingResults: !toggle,
+    }));
   };
 
   handleToggleShowing = () => {
-    const toggle = this.state.ShowingAnswered
-    this.setState((currState) => ({
-      ShowingAnswered: !toggle,
-    }));
+    const toggle = !this.state.ShowingAnswered;
+    console.log('............................................. is now : '  , this.state.ShowingAnswered);
+
+    
+    this.setState(() => ({
+      ShowingAnswered : !toggle
+    }))
+    console.log('............................................. is now : '  , this.state.ShowingAnswered);
+
   };
 
+  handleResetAnsed = () => {
+    this.setState((currState) => ({
+      ShowingAnswered: true,
+    }));
+    this.handleactiveKey('Answered Questions')
+  };
 
   handleId = (id) => {
-    this.setState((currState) => ({
+    this.setState(() => ({
       ShowingAnsweredId: id,
     }));
   };
-  render() {
 
+  handleToggleShowingUnAnswered = () => {
+    console.log('............................................. is now : '  , this.state.ShowingUnAnswered);
+
+    const toggle = this.state.ShowingUnAnswered;
+    this.setState((currState) => ({
+      ShowingUnAnswered: !toggle,
+    }));
+    console.log('............................................. is now : '  , this.state.ShowingUnAnswered);
+
+  };
+
+  handleResetUnAnsed = () => {
+    this.setState((currState) => ({
+      ShowingUnAnswered: true,
+      ShowingResults: false,
+    }));
+    this.handleactiveKey('Unanswered Questions')
+
+  };
+
+  handleIdUnAnswered = (id) => {
+    this.setState((currState) => ({
+      ShowingUnAnsweredId: id,
+    }));
+  };
+  render() {
     return (
       <Route
+      
         path='/Dashboard/Home'
         render={() => {
           return (
             <div className='App second-tab'>
               <Tabs
-                defaultActiveKey='Answered Questions'
+                defaultActiveKey='Unanswered Questions'
                 id='uncontrolled-tab-example'
                 className='mb-3 second-tab'>
                 <Tab
                   eventKey='Answered Questions'
                   title={
-                    <Link className='link' to='/Dashboard/Home/Answered'>
+                    <Link
+                      className='link'
+                      to='/Dashboard/Home/'
+                      onClick={this.handleResetAnsed}>
                       Answered Questions
                     </Link>
                   }
-                  onClick={this.handleToggleShowing}
                   className='link'>
-                  {this.state.ShowingAnswered === true ? 
-                  <AnsedQList
-                  AnsedQs={this.props.AnsedQs}
-                  showingAnsweredState={this.state.ShowingAnswered}
-                  toggleView={this.handleToggleShowing}
-                  handleId={this.handleId}
-                />: <Results  id={this.state.ShowingAnsweredId} />
-                }
+                  {this.state.ShowingAnswered === true ? (
+                    <AnsedQList
+                      AnsedQs={this.props.AnsedQs}
+                      showingAnsweredState={this.state.ShowingAnswered}
+                      toggleView={this.handleToggleShowing}
+                      handleId={this.handleId}
+                    />
+                  ) : (
+                    <Results
+                      toggleView={this.handleToggleShowing}
+                      id={this.state.ShowingAnsweredId}
+                    />
+                  )}
                 </Tab>
                 <Tab
                   eventKey='Unanswered Questions'
                   title={
-                    <Link className='link' to='/Dashboard/Home/Unanswered'>
+                    <Link
+                      className='link'
+                      to='/Dashboard/Home/'
+                      onClick={this.handleResetUnAnsed}>
                       Unanswered Questions
                     </Link>
                   }
                   className='link'>
-                  <UnAnsedQList UnAnsedQs={this.props.UnAnsedQs} />
+                  {this.state.ShowingUnAnswered === true ? (
+                    <UnAnsedQList
+                      UnAnsedQs={this.props.UnAnsedQs}
+                      showingUnAnsweredState={this.state.ShowingUnAnswered}
+                      toggleView={this.handleToggleShowingUnAnswered}
+                      handleId={this.handleIdUnAnswered}
+                    />
+                  ) : this.state.ShowingResults === false ? (
+                    
+                    <QuestionCard
+                      toggleView={this.handleToggleShowingUnAnswered}
+                      id={this.state.ShowingUnAnsweredId}
+                      toggleResultsView={this.handleToggleShowing}
+                      PassResultsId={this.handleId}
+                      changeToResultsView={this.handleShowingResults}
+                    />
+                    
+                  ) : (
+                    <Results id={this.state.ShowingAnsweredId} />
+                  )}
                 </Tab>
               </Tabs>
             </div>
@@ -102,7 +169,6 @@ function mapStateToProps({ authedUser, Questions, Users }) {
   const AnsedQs = [];
   const UnAnsedQs = [];
   Object.entries(Questions).map((q) => {
-    // console.log(q[1])
     const op1 = q[1].optionOne.votes;
     const op2 = q[1].optionTwo.votes;
     if (!op1.includes(authedUser) && !op2.includes(authedUser)) {

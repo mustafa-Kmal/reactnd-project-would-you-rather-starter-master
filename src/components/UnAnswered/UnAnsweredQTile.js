@@ -1,29 +1,15 @@
 import React, { Component } from "react";
-
-// import logo from "../logo.svg";
-// import "../App.css";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { Card } from "react-bootstrap";
-import { ButtonToolbar } from "react-bootstrap";
-import FigureCaption from "react-bootstrap/FigureCaption";
-import FigureImage from "react-bootstrap/FigureImage";
 import Figure from "react-bootstrap/Figure";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import ListGroup from "react-bootstrap/ListGroup";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import { connect } from "react-redux";
-import { render } from "@testing-library/react";
-// import Results from "./Results";
-// import { Route } from "react-router-dom";
+// import { render } from "@testing-library/react";
 import { Link } from "react-router-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import QuestionCard from "../QuestionCard";
+// import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class UnAnsweredQTile extends Component {
   render() {
@@ -50,10 +36,9 @@ class UnAnsweredQTile extends Component {
                   <Figure.Image
                     width={171}
                     height={180}
-                    alt='171x180'
-                    src='holder.js/171x180'
+                    alt='17x18'
+                    src={this.props.avatar}
                   />
-                  {this.props.avatar}
                 </Figure>
               </Col>
               <Col>
@@ -65,10 +50,13 @@ class UnAnsweredQTile extends Component {
                   <Button
                     variant='secondary'
                     size='md'
-                    onClick={() => <QuestionCard id={this.props.id} />}>
-                    <Link
-                      className='link'
-                      to={`/Dashboard/Home/Unanswered/${this.props.id}`}>
+                    onClick={() => {
+                      this.props.toggleView();
+                      this.props.handleId(this.props.id);
+                      // return <Results id={this.props.id} />
+                    }}>
+                    <Link className='link' to={`/question:${this.props.id}`}>
+                      {/* {console.log(this.props.id)} */}
                       View this Poll
                     </Link>
                   </Button>
@@ -83,15 +71,22 @@ class UnAnsweredQTile extends Component {
   }
 }
 
-function mapStateToProps({ authedUser, Questions }, { id, avatar }) {
+function mapStateToProps(
+  { authedUser, Questions, Users },
+  { id, showingUnAnsweredState, toggleView, handleId }
+) {
   const question = Questions[id];
+  const avatar = Users[question.author].avatarURL;
   return {
     authedUser,
     optionOne: question.optionOne,
+    avatar,
+    author: Users[question.author].name,
 
-    author: question.author,
-    avatar: avatar,
     id,
+    showingUnAnsweredState,
+    toggleView,
+    handleId,
 
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };
