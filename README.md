@@ -6,6 +6,19 @@ The `_DATA.js` file represents a fake database and methods that let you access t
 
 Using the provided starter code, you'll build a React/Redux front end for the application. We recommend using the [Create React App](https://github.com/facebook/create-react-app) to bootstrap the project.
 
+## How to Load the App
+* Clone the repository to your local machine 
+* Within the **downloaded folder** open and new **new ternial window** (or from the openned folder in **vscode**) and then type: 
+```
+npm install
+```
+* Once all of the dependencies have been installed you can launch the app with
+```
+npm start
+```
+* A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/ in your browser  
+
+
 ## Data
 
 There are two types of objects stored in our database:
@@ -102,18 +115,3 @@ This repository is the starter code for *all* Udacity students. Therefore, we mo
 
 
 
-# MyReads
-Project Purpose:
-This game was built for the Udacity React Nanodegree Program. The purpose of the project is to demonstrate understanding of the basic structure and operation of a React-based app.
-
-## How to Load the App
-* Clone the repository to your local machine 
-* Within the **downloaded folder** open and new **new ternial window** (or from the openned folder in **vscode**) and then type: 
-```
-npm install
-```
-* Once all of the dependencies have been installed you can launch the app with
-```
-npm start
-```
-* A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/ in your browser  
