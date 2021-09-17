@@ -11,14 +11,11 @@ import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import PrivateRoute from "../PrivateRoute";
 
-
 class Results extends Component {
   render() {
-    console.log('RRRRRRRRRRRRRRRRRR',this.props.id);
-
     return (
       <Route
-        path={`/question:${this.props.id}`}
+        path={`/questions/question:${this.props.id}`}
         // path={`/`}
 
         render={() => {
@@ -32,7 +29,6 @@ class Results extends Component {
                 style={{ width: "25rem" }}
                 className='mb-2'>
                 <Card.Header>
-                 
                   Poll Asked By the user:{`  ${this.props.author}`}
                 </Card.Header>
 
@@ -43,7 +39,7 @@ class Results extends Component {
                         <Figure.Image
                           width={171}
                           height={180}
-                          alt='171x180'
+                          alt='17x18'
                           src={this.props.avatar}
                         />
                       </Figure>
@@ -52,15 +48,26 @@ class Results extends Component {
                       <Card.Body>
                         <Card.Title> Would you rather... </Card.Title>
                         <ListGroup>
-                          <ListGroup.Item size='sm' action variant='dark' >
-                            <p className = {this.props.choosenOp === 1 ? 'ans'  : ''} >{this.props.optionOne.text}</p>
+                          <ListGroup.Item
+                            size='sm'
+                            action
+                            variant='dark'
+                            disabled>
+                            <p
+                              className={
+                                this.props.choosenOp === 1 ? "ans" : ""
+                              }>
+                              {this.props.optionOne.text}
+                            </p>
                             <ProgressBar
                               variant='dark'
-                              now={
-                                this.props.optionOne.length /
-                                this.props.pollSize
-                              }
-                              label={`Option2 20%`}
+                              now={this.props.optionOnePercentage}
+                             
+                              label={`Option 1 ${
+                                (this.props.optionOne.votes.length /
+                                  this.props.pollSize) *
+                                100
+                              }%`}
                               key={1}
                             />
                             {this.props.optionOne.votes.length} out of
@@ -70,15 +77,22 @@ class Results extends Component {
                             size='sm'
                             action
                             variant='dark'
-                            >
-                            <p className = {this.props.choosenOp === 2 ? 'ans'  : ''}  >{this.props.optionTwo.text}</p>
+                            disabled>
+                            <p
+                              className={
+                                this.props.choosenOp === 2 ? "ans" : ""
+                              }>
+                              {this.props.optionTwo.text}
+                            </p>
                             <ProgressBar
                               variant='dark'
-                              now={
-                                this.props.optionTwo.votes.length /
-                                this.props.pollSize
-                              }
-                              label={`Option1 80%`}
+                              now={this.props.optionTwoPercentage}
+
+                              label={`Option 2 ${
+                                (this.props.optionTwo.votes.length /
+                                  this.props.pollSize) *
+                                100
+                              }%`}
                               key={2}
                             />
                             {this.props.optionTwo.votes.length} out of{" "}
@@ -100,11 +114,11 @@ class Results extends Component {
 
 function mapStateToProps({ authedUser, Questions, Users }, { id, toggleView }) {
   const question = Questions[id];
-  const choosenOp = question.optionOne.votes.includes(authedUser) ? 1: 2
-  const avatar = Users[question.author].avatarURL
-  
-  console.log( '................avatar', question.author, avatar)
-  
+  const choosenOp = question.optionOne.votes.includes(authedUser) ? 1 : 2;
+  const avatar = Users[question.author].avatarURL;
+  const optionOnePercentage = ((question.optionOne.votes.length )/(question.optionOne.votes.length + question.optionTwo.votes.length))*100
+  const optionTwoPercentage = ((question.optionTwo.votes.length )/(question.optionOne.votes.length + question.optionTwo.votes.length))*100
+
   return {
     authedUser,
     optionOne: question.optionOne,
@@ -115,7 +129,10 @@ function mapStateToProps({ authedUser, Questions, Users }, { id, toggleView }) {
     id,
     toggleView,
     avatar,
-    choosenOp
+    choosenOp,
+    optionOnePercentage,
+    optionTwoPercentage
+
 
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };

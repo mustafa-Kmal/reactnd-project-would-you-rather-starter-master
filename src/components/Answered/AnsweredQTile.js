@@ -10,10 +10,8 @@ import Figure from "react-bootstrap/Figure";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
-// import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 // import { BrowserRouter as Routesr, Route } from "react-router-dom";
-import Results from "./Results";
 
 class AnsweredQTile extends Component {
   handleShowing = (id) => {
@@ -53,11 +51,11 @@ class AnsweredQTile extends Component {
                   variant='secondary'
                   size='md'
                   onClick={() => {
-                    this.handleShowing(this.props.id);
+                   return this.handleShowing(this.props.id);
                   }}>
                   <Link
                     className='link'
-                    to={`/question:${this.props.id}`}
+                    to={`/questions/question:${this.props.id}`}
                     // onClick={() => {
                     //   console.log(this.props.id);
                     // }}
@@ -69,7 +67,6 @@ class AnsweredQTile extends Component {
             </Col>
           </Row>
         </Container>
-        {/* <Results id={this.props.Id} /> */}
       </Card>
     );
   }
@@ -91,7 +88,6 @@ function mapStateToProps(
     toggleView,
     handleId,
 
-    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };
 }
 

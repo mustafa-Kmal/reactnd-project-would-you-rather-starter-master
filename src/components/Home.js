@@ -10,8 +10,7 @@ import { Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { Component } from "react";
 import Results from "./Answered/Results";
-// import PrivateRoute from "./PrivateRoute";
-
+import PrivateRoute from "./PrivateRoute";
 
 class Home extends Component {
   state = {
@@ -39,21 +38,20 @@ class Home extends Component {
 
   handleToggleShowing = () => {
     const toggle = !this.state.ShowingAnswered;
-    console.log('............................................. is now : '  , this.state.ShowingAnswered);
 
-    
     this.setState(() => ({
-      ShowingAnswered : !toggle
-    }))
-    console.log('............................................. is now : '  , this.state.ShowingAnswered);
-
+      ShowingAnswered: !toggle,
+    }));
   };
 
   handleResetAnsed = () => {
-    this.setState((currState) => ({
+ 
+
+    this.setState(() => ({
+      ShowingAnsweredId: "",
       ShowingAnswered: true,
     }));
-    this.handleactiveKey('Answered Questions')
+  
   };
 
   handleId = (id) => {
@@ -63,14 +61,11 @@ class Home extends Component {
   };
 
   handleToggleShowingUnAnswered = () => {
-    console.log('............................................. is now : '  , this.state.ShowingUnAnswered);
 
     const toggle = this.state.ShowingUnAnswered;
     this.setState((currState) => ({
       ShowingUnAnswered: !toggle,
     }));
-    console.log('............................................. is now : '  , this.state.ShowingUnAnswered);
-
   };
 
   handleResetUnAnsed = () => {
@@ -78,8 +73,7 @@ class Home extends Component {
       ShowingUnAnswered: true,
       ShowingResults: false,
     }));
-    this.handleactiveKey('Unanswered Questions')
-
+    this.handleactiveKey("Unanswered Questions");
   };
 
   handleIdUnAnswered = (id) => {
@@ -90,8 +84,9 @@ class Home extends Component {
   render() {
     return (
       <Route
-      
-        path='/Dashboard/Home'
+         path='/questions'
+        // path='/'
+
         render={() => {
           return (
             <div className='App second-tab'>
@@ -104,22 +99,30 @@ class Home extends Component {
                   title={
                     <Link
                       className='link'
-                      to='/Dashboard/Home/'
-                      onClick={this.handleResetAnsed}>
+                      to='/questions'
+                      onClick={() => this.handleResetAnsed()}
+                      // onClick={()=> this.props.ShowingAnswered()}
+                    >
                       Answered Questions
                     </Link>
                   }
                   className='link'>
-                  {this.state.ShowingAnswered === true ? (
+                  {/* {this.state.ShowingAnswered === true ? ( */}
+
+                  {this.state.ShowingAnsweredId === "" ? (
                     <AnsedQList
                       AnsedQs={this.props.AnsedQs}
                       showingAnsweredState={this.state.ShowingAnswered}
                       toggleView={this.handleToggleShowing}
+                      // toggleView={this.props.ShowingAnswered}
+
                       handleId={this.handleId}
                     />
                   ) : (
                     <Results
                       toggleView={this.handleToggleShowing}
+                      // toggleView={this.props.ShowingAnswered}
+
                       id={this.state.ShowingAnsweredId}
                     />
                   )}
@@ -129,7 +132,7 @@ class Home extends Component {
                   title={
                     <Link
                       className='link'
-                      to='/Dashboard/Home/'
+                      to='/questions'
                       onClick={this.handleResetUnAnsed}>
                       Unanswered Questions
                     </Link>
@@ -143,7 +146,6 @@ class Home extends Component {
                       handleId={this.handleIdUnAnswered}
                     />
                   ) : this.state.ShowingResults === false ? (
-                    
                     <QuestionCard
                       toggleView={this.handleToggleShowingUnAnswered}
                       id={this.state.ShowingUnAnsweredId}
@@ -151,7 +153,6 @@ class Home extends Component {
                       PassResultsId={this.handleId}
                       changeToResultsView={this.handleShowingResults}
                     />
-                    
                   ) : (
                     <Results id={this.state.ShowingAnsweredId} />
                   )}
@@ -165,7 +166,10 @@ class Home extends Component {
   }
 }
 
-function mapStateToProps({ authedUser, Questions, Users }) {
+function mapStateToProps(
+  { authedUser, Questions, Users },
+  { ShowingAnswered, state }
+) {
   const AnsedQs = [];
   const UnAnsedQs = [];
   Object.entries(Questions).map((q) => {
@@ -180,12 +184,13 @@ function mapStateToProps({ authedUser, Questions, Users }) {
 
   return {
     QuestionsIds: Object.keys(Questions),
-    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
     questions: Questions,
     users: Users,
     authedUser,
     AnsedQs: AnsedQs,
     UnAnsedQs: UnAnsedQs,
+    ShowingAnswered,
+    state,
   };
 }
 

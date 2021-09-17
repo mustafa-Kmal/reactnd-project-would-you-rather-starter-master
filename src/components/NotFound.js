@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import {  Route } from "react-router-dom";
 
 class NotFound extends Component {
   render() {

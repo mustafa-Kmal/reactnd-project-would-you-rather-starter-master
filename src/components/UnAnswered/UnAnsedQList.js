@@ -14,7 +14,7 @@ class UnAnsedQList extends Component {
     return (
       <Route
         
-        path='/Dashboard/Home/'
+        path='/questions'
         render={() => {
           return (
             <div className='App'>

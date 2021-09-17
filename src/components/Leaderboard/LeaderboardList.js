@@ -9,7 +9,7 @@ class LeaderboardList extends Component {
   render() {
     return (
       <Route
-        path='/Dashboard/Leader-Board'
+        path='/leaderboard'
         render={() => {
           return (
             <div className='App'>

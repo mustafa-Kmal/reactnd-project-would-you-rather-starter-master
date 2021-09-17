@@ -14,6 +14,7 @@ import PrivateRoute from "./components/PrivateRoute";
 class App extends Component {
   state = {
     selelctedUser: "",
+    isAuthed: false,
   };
   componentDidMount() {
     this.props.dispatch(handleInitialUsers());
@@ -25,25 +26,43 @@ class App extends Component {
     this.props.dispatch(handleInitialDataUser(USER.id));
   };
 
+  isLogged = () => {
+    // e.preventDefault()
+    console.log(",,,,,,,,,,,,,,,,,,,,this.state.isAuthed", this.state.isAuthed);
+    const isAuthed = this.state.isAuthed;
+
+    this.setState(() => ({
+      isAuthed: !isAuthed,
+    }));
+    // e.stopPropagation()
+
+    console.log(",,,,,,,,,,,,,,,,,,,,this.state.isAuthed", this.state.isAuthed);
+
+    return this.state.isAuthed;
+  };
+
   render() {
     return (
       <div className='App App-header'>
-        {/* <header className='App-header'> */}
         <BrowserRouter>
           <Fragment>
             <Switch>
               <Route
                 exact
-                path='/'
+                path='/Login'
                 render={() => {
                   return this.props.loadingUsers === true ? null : (
-                    <Login handleChoosenUser={this.handleChoosenUser} />
+                    <Login
+                      isLogged={this.isLogged}
+                      handleChoosenUser={this.handleChoosenUser}
+                    />
                   );
                 }}
               />
-
+              {/* <Route  PrivateRoute */}
               <Route
-                path='/Dashboard'
+                path='/'
+                isLogged={this.isLogged}
                 render={() => {
                   return this.props.loadingQuestions === true ||
                     this.props.loadingauthedUser === true ? null : (
@@ -51,19 +70,8 @@ class App extends Component {
                   );
                 }}
               />
-{/* 
-                  <PrivateRoute path='/dashboard' exact component={Dashboard} />
-									<PrivateRoute path='/add' exact component={NewQuestion} />
-									<PrivateRoute path='/question:' component={QuestionDetail} />
-									<PrivateRoute path='/leaderboard' component={Leaderboard} />
-
-
- */}
-
-
-
-
-              {/* <NotFound /> */}
+              {/* <ProtectedRoute path='/question/:id' component={QuestionDetail} /> */}
+              <NotFound />;
             </Switch>
           </Fragment>
         </BrowserRouter>
@@ -79,6 +87,7 @@ function mapStateToProps({ Users, authedUser, Questions }) {
     loadingauthedUser: authedUser === null,
 
     Users,
+    authedUser,
   };
 }
 

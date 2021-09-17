@@ -15,7 +15,6 @@ class NewQuestionCard extends Component {
   state = {
     optionOneText: "",
     optionTwoText: "",
-    toHome: false,
   };
   handleChangeOptionOne = (e) => {
     const text = e.target.value;
@@ -55,7 +54,6 @@ class NewQuestionCard extends Component {
     this.setState(() => ({
       optionOneText: "",
       optionTwoText: "",
-      toHome: true,
     }));
 
     this.props.toggleTabView('Home');
@@ -63,7 +61,7 @@ class NewQuestionCard extends Component {
   render() {
     return (
       <Route
-        path='/Dashboard/add'
+        path='/add'
         render={() => {
           return (
             <div className='App'>
@@ -112,7 +110,7 @@ class NewQuestionCard extends Component {
                       //   this.props.toggleTabView;
                       // }}
                     >
-                      <Link className='link' to='/Dashboard/Home/Unanswered'>
+                      <Link className='link' to='/questions'>
                         Submit
                       </Link>
                     </Button>

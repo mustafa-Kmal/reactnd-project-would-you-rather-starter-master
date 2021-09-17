@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-
-// import "../App.css";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
@@ -11,7 +9,6 @@ import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { handleSaveQuestionAnswer } from "../../actions/questions";
 import {  Route } from "react-router-dom";
-import { Link } from "react-router-dom";
 import PrivateRoute from "../PrivateRoute";
 
 
@@ -27,7 +24,7 @@ class QuestionCard extends Component {
 
     return (
       <Route
-        path={`/question:${this.props.id}`}
+        path={`/questions/question:${this.props.id}`}
         // path={`/`}
 
         render={() => {
@@ -53,8 +50,8 @@ class QuestionCard extends Component {
                         <Figure.Image
                           width={171}
                           height={180}
-                          alt='171x180'
-                          src='holder.js/171x180'
+                          alt='17x18'
+                          src={this.props.avatar}
                         />
                       </Figure>
                     </Col>
@@ -62,9 +59,9 @@ class QuestionCard extends Component {
                       {" "}
                       <Card.Body>
                         <Card.Title> Would you rather... </Card.Title>
-                        <div class='btn-group'>
+                        <div className='btn-group'>
                           <Button
-                            class='btn btn-primary btn-block'
+                            className='btn btn-primary btn-block'
                             variant='secondary'
                             size='md'
                             onClick={() => {
@@ -77,7 +74,7 @@ class QuestionCard extends Component {
                           </Button>
 
                           <Button
-                            class='btn btn-primary btn-block'
+                            className='btn btn-primary btn-block'
                             variant='secondary'
                             size='md'
                             onClick={() => {
@@ -102,10 +99,12 @@ class QuestionCard extends Component {
 }
 
 function mapStateToProps(
-  { authedUser, Questions },
+  { authedUser, Questions , Users},
   { id, toggleView, toggleResultsView, PassResultsId, changeToResultsView }
 ) {
   const Question = Questions[id];
+  const avatar = Users[Question.author].avatarURL;
+
 
   return {
     authedUser,
@@ -119,6 +118,7 @@ function mapStateToProps(
     toggleResultsView,
     PassResultsId,
     changeToResultsView,
+    avatar
 
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };

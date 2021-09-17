@@ -12,6 +12,10 @@ import { Link } from "react-router-dom";
 // import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class UnAnsweredQTile extends Component {
+  handleShowing = (id) => {
+    this.props.toggleView();
+    this.props.handleId(id);
+  };
   render() {
     // console.log(this.props);
 
@@ -51,11 +55,10 @@ class UnAnsweredQTile extends Component {
                     variant='secondary'
                     size='md'
                     onClick={() => {
-                      this.props.toggleView();
-                      this.props.handleId(this.props.id);
+                      this.handleShowing(this.props.id);
                       // return <Results id={this.props.id} />
                     }}>
-                    <Link className='link' to={`/question:${this.props.id}`}>
+                    <Link className='link' to={`/questions/question:${this.props.id}`}>
                       {/* {console.log(this.props.id)} */}
                       View this Poll
                     </Link>

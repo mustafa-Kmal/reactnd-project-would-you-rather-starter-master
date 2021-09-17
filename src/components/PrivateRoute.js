@@ -1,32 +1,54 @@
+import { render } from "@testing-library/react";
 import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
 import { connect } from "react-redux";
-import { BrowserRouter, Route, Redirect, Link } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Redirect,
+ 
+} from "react-router-dom";
 
-function PrivateRoute({ component: Component, ...restOfProps }) {
-  return (
-    <Route
-      {...restOfProps}
-      render={(props) => {
-        return restOfProps.authedUser ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: props.location },
-            }}
-          />
-        );
-      }}
-    />
-  );
+class PrivateRoute extends Component {
+  render() {
+    console.log(
+      "33333333333333333333333333333333333333333",
+      this.props.authedUser
+    );
+    return (
+      <Route
+        {...this.props.restOfProps}
+        render={(props) => {
+          return this.props.authedUserr ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/Login",
+                state: { from: this.props.location },
+              }}
+            />
+          );
+        }}
+      />
+    );
+  }
 }
 
-function mapStateToProps({ authedUser }) {
+function mapStateToProps(
+  { authedUser },
+  { component: Component, isLogged, ...restOfProps }
+) {
+
+  // const authedUserr = 'tylermcginnis'
+  // const authedUserr = ''
+
   return {
     authedUser,
+    Component,
+    isLogged,
+    ...restOfProps,
+
   };
 }
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default connect(mapStateToProps, null, null , {pure: false,} )(PrivateRoute);

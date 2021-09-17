@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Component } from "react";
 import AnsweredQTile from "./AnsweredQTile";
 import { Route } from "react-router-dom";
+import PrivateRoute from '../PrivateRoute'
 
 class AnsedQList extends Component {
   state = {
@@ -21,7 +22,7 @@ class AnsedQList extends Component {
     return (
       <div>
         <Route
-          path='/Dashboard/Home/'
+          path='/questions'
           render={() => {
             return (
               <div className='App'>

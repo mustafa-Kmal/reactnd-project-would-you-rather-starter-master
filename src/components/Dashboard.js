@@ -5,7 +5,7 @@ import Home from "./Home";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 // import { Route } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleInitialDataUser } from "../actions/shared";
 
@@ -18,8 +18,15 @@ class Dashboard extends Component {
     activeKey: "Home",
   };
 
+  handleToggleShowing = () => {
+    const toggle = this.state.ShowingAnswered;
+
+    this.setState(() => ({
+      ShowingAnswered: !toggle,
+    }));
+  };
+
   handleactiveKey = (key) => {
-    // console.log("active key is : ", this.state.activeKey);
     this.setState(() => ({
       activeKey: key,
     }));
@@ -28,10 +35,6 @@ class Dashboard extends Component {
   handleLogout = () => {
     this.props.dispatch(handleInitialDataUser(null));
   };
-
-  //   handleLogout = () =>{
-
-  //   }
 
   render() {
     return (
@@ -48,14 +51,18 @@ class Dashboard extends Component {
             title={
               <Link
                 className='link'
-                to='/Dashboard/Home/Unanswered'
+                to='/questions'
                 onClick={() => {
                   this.handleactiveKey("Home");
+                  this.handleToggleShowing();
                 }}>
                 Home
               </Link>
             }>
-            <Home />
+            <Home
+              ShowingAnswered={this.handleToggleShowing}
+              state={this.state.ShowingAnswered}
+            />
           </Tab>
 
           <Tab
@@ -63,7 +70,7 @@ class Dashboard extends Component {
             title={
               <Link
                 className='link'
-                to='/Dashboard/add'
+                to='/add'
                 onClick={() => {
                   this.handleactiveKey("New Question");
                 }}>
@@ -74,13 +81,13 @@ class Dashboard extends Component {
           </Tab>
 
           <Tab
-            eventKey='Leader-Board'
+            eventKey='leaderboard'
             title={
               <Link
                 className='link'
-                to='/Dashboard/Leader-Board'
+                to='/leaderboard'
                 onClick={() => {
-                  this.handleactiveKey("Leader-Board");
+                  this.handleactiveKey("leaderboard");
                 }}>
                 Leader Board
               </Link>
@@ -98,10 +105,20 @@ class Dashboard extends Component {
             // title={`Signed in as: ${this.props.authedUser}`}
 
             title={
-              <Link className='link' to='/' onClick={this.handleLogout}>
+              <Link className='link' to='/Login' onClick={this.handleLogout}>
                 Log out
               </Link>
             }></Tab>
+
+          {/* <Tab
+            eventKey='logout'
+            // title={`Signed in as: ${this.props.authedUser}`}
+
+            title={
+              <Link className='link' to='/' >
+                Log out
+              </Link>
+            }></Tab> */}
         </Tabs>
       </div>
     );
