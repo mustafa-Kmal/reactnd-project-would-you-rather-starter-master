@@ -16,7 +16,15 @@ npm install
 ```
 npm start
 ```
-* A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/ in your browser  
+* A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/Login in your browser  
+
+## Issues with the app functionality 
+
+* Private routes didn't work properly. PrivateRoute component doesn't correctly check if the authedUser is a thing and hence, doesn't redirect to the main page intended 
+* Some links seem to lag randomly or simply need to be clicked twice
+* The console warnings are related to things lefts as comments realted to PrivateRoute component and functionality 
+* The Login page is at /Login because it was intended to be the page the user is redirected to if is not authed, I left it as is for now
+
 
 
 ## Data
