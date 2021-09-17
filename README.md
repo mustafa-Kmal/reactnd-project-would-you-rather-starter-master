@@ -98,3 +98,22 @@ Your code will talk to the database via 4 methods:
 ## Contributing
 
 This repository is the starter code for *all* Udacity students. Therefore, we most likely will not accept pull requests. For details, check out [CONTRIBUTING.md](https://github.com/udacity/reactnd-project-would-you-rather-starter/blob/master/CONTRIBUTING.md).
+
+
+
+
+# MyReads
+Project Purpose:
+This game was built for the Udacity React Nanodegree Program. The purpose of the project is to demonstrate understanding of the basic structure and operation of a React-based app.
+
+## How to Load the App
+* Clone the repository to your local machine 
+* Within the **downloaded folder** open and new **new ternial window** (or from the openned folder in **vscode**) and then type: 
+```
+npm install
+```
+* Once all of the dependencies have been installed you can launch the app with
+```
+npm start
+```
+* A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/ in your browser  
