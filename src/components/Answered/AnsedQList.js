@@ -34,6 +34,7 @@ class AnsedQList extends Component {
                           toggleView={this.props.toggleView}
                           id={id}
                           handleId={this.props.handleId}
+                          handleactiveKey={this.props.handleactiveKey}
                         />
                       </li>
                     );
@@ -49,7 +50,7 @@ class AnsedQList extends Component {
 }
 function mapStateToProps(
   { Questions, Users },
-  { AnsedQs, toggleView, showingAnsweredState, handleId }
+  { AnsedQs, toggleView, showingAnsweredState, handleId, handleactiveKey }
 ) {
   return {
     QuestionsIds: AnsedQs.sort((a,b)=> { return Questions[b].timestamp - Questions[a].timestamp}),
@@ -58,6 +59,7 @@ function mapStateToProps(
     toggleView,
     showingAnsweredState,
     handleId,
+    handleactiveKey
   };
 }
 

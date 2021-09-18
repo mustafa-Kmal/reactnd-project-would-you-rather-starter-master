@@ -56,9 +56,9 @@ class AnsweredQTile extends Component {
                   <Link
                     className='link'
                     to={`/questions/question:${this.props.id}`}
-                    // onClick={() => {
-                    //   console.log(this.props.id);
-                    // }}
+                    onClick={() => {
+                      this.props.handleactiveKey('Question details')
+                    }}
                   >
                     View This Poll
                   </Link>
@@ -74,7 +74,7 @@ class AnsweredQTile extends Component {
 
 function mapStateToProps(
   { authedUser, Questions, Users },
-  { id, toggleView, handleId }
+  { id, toggleView, handleId  , handleactiveKey }
 ) {
   const question = Questions[id];
   const avatar = Users[question.author].avatarURL;
@@ -87,6 +87,7 @@ function mapStateToProps(
     id,
     toggleView,
     handleId,
+    handleactiveKey
 
   };
 }

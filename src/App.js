@@ -3,13 +3,14 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/Login";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleInitialUsers, handleInitialDataUser } from "./actions/shared";
 import Dashboard from "./components/Dashboard";
 import NotFound from "./components/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
+import QDetails from "./components/QDetails";
 
 class App extends Component {
   state = {
@@ -44,37 +45,42 @@ class App extends Component {
   render() {
     return (
       <div className='App App-header'>
-        <BrowserRouter>
-          <Fragment>
-            <Switch>
-              <Route
-                exact
-                path='/Login'
-                render={() => {
-                  return this.props.loadingUsers === true ? null : (
-                    <Login
-                      isLogged={this.isLogged}
-                      handleChoosenUser={this.handleChoosenUser}
-                    />
-                  );
-                }}
-              />
-              {/* <Route  PrivateRoute */}
-              <Route
-                path='/'
-                isLogged={this.isLogged}
-                render={() => {
-                  return this.props.loadingQuestions === true ||
-                    this.props.loadingauthedUser === true ? null : (
-                    <Dashboard />
-                  );
-                }}
-              />
-              {/* <ProtectedRoute path='/question/:id' component={QuestionDetail} /> */}
-              <NotFound />;
-            </Switch>
-          </Fragment>
-        </BrowserRouter>
+        <Fragment>
+          <Switch>
+            <Route
+              exact
+              path='/Login'
+              render={() => {
+                return this.props.loadingUsers === true ? null : (
+                  <Login
+                    isLogged={this.isLogged}
+                    handleChoosenUser={this.handleChoosenUser}
+                  />
+                );
+              }}
+            />
+            {/* <Route  PrivateRoute */}
+            <Route
+              path='/'
+              isLogged={this.isLogged}
+              render={() => {
+                return this.props.loadingQuestions === true ||
+                  this.props.loadingauthedUser === true ? null : (
+                  <Dashboard />
+                );
+              }}
+            />
+            <Route path='/'>
+              <Redirect to='/questions' />
+            </Route>
+            {/* the : part of the url defines a place hodler for any value, you shoule use this to check if the question is available in the store and whether it's answered by the current user or not */}
+            {/* {window.location.href.includes("/questions/question:") && (
+              <Route path='/questions/question:qid' component={QDetails} />
+            )} */}
+            <Route path='/questions/question:qid' component={QDetails} />
+            <NotFound />;
+          </Switch>
+        </Fragment>
       </div>
     );
   }

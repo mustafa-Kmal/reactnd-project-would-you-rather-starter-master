@@ -34,14 +34,7 @@ class NewQuestionCard extends Component {
 
   handleAddNewQ = (e) => {
     e.preventDefault();
-    // const {authedUser} = this.props
-
-    // onClick={() => {
-    //   this.handleAddNewQ;
-    //   this.props.toggleTabView;
-    // }}
-
-    
+  
     const { optionOneText, optionTwoText } = this.state;
     const { dispatch } = this.props;
 
@@ -57,6 +50,7 @@ class NewQuestionCard extends Component {
     }));
 
     this.props.toggleTabView('Home');
+    this.props.HomeActiveKey("Unanswered Questions")
   };
   render() {
     return (
@@ -125,11 +119,13 @@ class NewQuestionCard extends Component {
   }
 }
 
-function mapStateToProps({ authedUser }, { toggleTabView }) {
+function mapStateToProps({ authedUser }, { toggleTabView , HomeActiveKey }) {
   return {
     authedUser,
     toggleTabView,
+    HomeActiveKey
   };
+
 }
 
 export default connect(mapStateToProps)(NewQuestionCard);

@@ -13,6 +13,10 @@ import PrivateRoute from "../PrivateRoute";
 
 
 class QuestionCard extends Component {
+  // disableAnsButtons =()=>{
+  //   Object.keys(this.props.authedUser.answers).includes(this.props.id) ? true : false 
+  // }
+
   handleAnswer = (qid, answer) => {
     const { dispatch, authedUser } = this.props;
 
@@ -30,6 +34,10 @@ class QuestionCard extends Component {
         render={() => {
           return (
             <div className='App'>
+                           {console.log( 'kkkkkkkkkkkkkkkkkk',  Object.keys(this.props.Users[this.props.authedUser].answers).includes(this.props.id)
+                           ) }
+              
+
               <Card
                 bg={"dark"}
                 // key={idx}
@@ -64,10 +72,12 @@ class QuestionCard extends Component {
                             className='btn btn-primary btn-block'
                             variant='secondary'
                             size='md'
+                            disabled = {Object.keys(this.props.Users[this.props.authedUser].answers).includes(this.props.id)}
                             onClick={() => {
                               this.handleAnswer(this.props.id, "optionOne");
-                              this.props.changeToResultsView();
-                              this.props.PassResultsId(this.props.id)
+                              // this.props.handleAnswer(this.props.id, "optionOne");
+
+                             this.props.rerenderToResults();
 
                             }}>
                             {this.props.optionOne.text}
@@ -77,10 +87,13 @@ class QuestionCard extends Component {
                             className='btn btn-primary btn-block'
                             variant='secondary'
                             size='md'
+                            disabled = {Object.keys(this.props.Users[this.props.authedUser].answers).includes(this.props.id)}
                             onClick={() => {
                               this.handleAnswer(this.props.id, "optionTwo");
-                              this.props.changeToResultsView();
-                              this.props.PassResultsId(this.props.id)
+                              // this.props.handleAnswer(this.props.id, "optionTwo");
+
+                             this.props.rerenderToResults();
+
                             }}>
                             {this.props.optionTwo.text}
                           </Button>
@@ -100,8 +113,15 @@ class QuestionCard extends Component {
 
 function mapStateToProps(
   { authedUser, Questions , Users},
-  { id, toggleView, toggleResultsView, PassResultsId, changeToResultsView }
+  { id, 
+    toggleView, 
+    PassResultsId, 
+    changeToResultsView ,
+    handleAnswer,
+    rerenderToResults}
 ) {
+
+  console.log(',,,,,,,,,,,,,,,,,,,,,,,,' , id)
   const Question = Questions[id];
   const avatar = Users[Question.author].avatarURL;
 
@@ -115,10 +135,12 @@ function mapStateToProps(
     pollSize: Question.optionOne.votes.length + Question.optionTwo.votes.length,
     id,
     toggleView,
-    toggleResultsView,
+    // toggleResultsView,
     PassResultsId,
     changeToResultsView,
-    avatar
+    avatar,
+    rerenderToResults,
+    Users,handleAnswer
 
     // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };

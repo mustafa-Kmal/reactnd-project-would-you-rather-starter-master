@@ -56,9 +56,11 @@ class UnAnsweredQTile extends Component {
                     size='md'
                     onClick={() => {
                       this.handleShowing(this.props.id);
-                      // return <Results id={this.props.id} />
+                      this.props.handleactiveKey('Question details');
                     }}>
-                    <Link className='link' to={`/questions/question:${this.props.id}`}>
+                    <Link
+                      className='link'
+                      to={`/questions/question:${this.props.id}`}>
                       {/* {console.log(this.props.id)} */}
                       View this Poll
                     </Link>
@@ -76,7 +78,7 @@ class UnAnsweredQTile extends Component {
 
 function mapStateToProps(
   { authedUser, Questions, Users },
-  { id, showingUnAnsweredState, toggleView, handleId }
+  { id, showingUnAnsweredState, toggleView, handleId, handleactiveKey }
 ) {
   const question = Questions[id];
   const avatar = Users[question.author].avatarURL;
@@ -90,8 +92,7 @@ function mapStateToProps(
     showingUnAnsweredState,
     toggleView,
     handleId,
-
-    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
+    handleactiveKey,
   };
 }
 

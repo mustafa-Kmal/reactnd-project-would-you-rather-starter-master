@@ -5,7 +5,7 @@ import Home from "./Home";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 // import { Route } from "react-router-dom";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect , useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleInitialDataUser } from "../actions/shared";
 
@@ -15,8 +15,25 @@ class Dashboard extends Component {
     ShowingAnsweredId: "",
     ShowingUnAnswered: true,
     ShowingUnAnsweredId: "",
+    ShowingResults: false,
+
     activeKey: "Home",
+    HomeActiveKey: "Unanswered Questions",
+
   };
+
+  handleResetHome = ( key ) => {
+    // console.log("ShowingUnAnswered is: " , this.state.ShowingUnAnswered, " showing results is ", this.state.ShowingResults)
+    this.handleactiveKey(key);
+    
+  };
+
+  handleHomeActiveKey = (key) => {
+    this.setState(() => ({
+      HomeActiveKey: key,
+    }));
+  };
+
 
   handleToggleShowing = () => {
     const toggle = this.state.ShowingAnswered;
@@ -51,10 +68,17 @@ class Dashboard extends Component {
             title={
               <Link
                 className='link'
-                to='/questions'
+                // to='/questions'
+                to={{
+                  pathname: '/questions',
+                  // state: { activeKey: "Home" },
+                }}
                 onClick={() => {
-                  this.handleactiveKey("Home");
-                  this.handleToggleShowing();
+                  // this.handleactiveKey("Home");
+                  // this.handleToggleShowing();
+                  this.handleResetHome( "Home" );
+                  // window.history.pushState({activeKey: "Home"}, '', 'http://localhost:3000/questions')
+
                 }}>
                 Home
               </Link>
@@ -62,6 +86,11 @@ class Dashboard extends Component {
             <Home
               ShowingAnswered={this.handleToggleShowing}
               state={this.state.ShowingAnswered}
+              ShowingAnsweredId={this.state.ShowingAnsweredId}
+              ShowingAnswered={this.state.ShowingAnswered}
+              ShowingUnAnswered={this.state.ShowingUnAnswered}
+              ShowingResults ={this.state.ShowingResults}
+              HomeActiveKey={this.state.HomeActiveKey}
             />
           </Tab>
 
@@ -70,14 +99,22 @@ class Dashboard extends Component {
             title={
               <Link
                 className='link'
-                to='/add'
+                // to='/add'
+                to={{
+                  pathname: '/add',
+                  // state: { activeKey: "New Question" },
+                }}
                 onClick={() => {
                   this.handleactiveKey("New Question");
+                  window.history.pushState({activeKey: "New Question"}, '', 'http://localhost:3000/add')
+
+
                 }}>
                 New Question
               </Link>
             }>
-            <NewQuestionCard toggleTabView={this.handleactiveKey} />
+            <NewQuestionCard toggleTabView={this.handleactiveKey}
+            HomeActiveKey={this.handleHomeActiveKey} />
           </Tab>
 
           <Tab
@@ -88,6 +125,7 @@ class Dashboard extends Component {
                 to='/leaderboard'
                 onClick={() => {
                   this.handleactiveKey("leaderboard");
+
                 }}>
                 Leader Board
               </Link>
@@ -110,15 +148,6 @@ class Dashboard extends Component {
               </Link>
             }></Tab>
 
-          {/* <Tab
-            eventKey='logout'
-            // title={`Signed in as: ${this.props.authedUser}`}
-
-            title={
-              <Link className='link' to='/' >
-                Log out
-              </Link>
-            }></Tab> */}
         </Tabs>
       </div>
     );

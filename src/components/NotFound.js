@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link , Redirect} from "react-router-dom";
 import {  Route } from "react-router-dom";
 
 class NotFound extends Component {
@@ -12,9 +12,9 @@ class NotFound extends Component {
           <h2>404 Not Found</h2>
           <div>Sorry, an error has occured, Requested page not found!</div>
           <Button variant='secondary' size='md'>
-            <Link className='link' to={`/`}>
+            <Redirect className='link' to={`/`}>
               Take me to the home page
-            </Link>
+            </Redirect>
           </Button>
         </div>
       </Route>

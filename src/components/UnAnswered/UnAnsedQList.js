@@ -30,6 +30,7 @@ class UnAnsedQList extends Component {
                         toggleView={this.props.toggleView}
                         
                         handleId={this.props.handleId}
+                        handleactiveKey={this.props.handleactiveKey}
                       />
                     </li>
                   );
@@ -44,7 +45,7 @@ class UnAnsedQList extends Component {
 }
 function mapStateToProps(
   { authedUser, Questions, Users },
-  { UnAnsedQs, showingUnAnsweredState, toggleView, handleId }
+  { UnAnsedQs, showingUnAnsweredState, toggleView, handleId , handleactiveKey }
 ) {
   return {
     QuestionsIds: UnAnsedQs.sort((a,b)=> { return Questions[b].timestamp - Questions[a].timestamp}),
@@ -54,6 +55,7 @@ function mapStateToProps(
     showingUnAnsweredState,
     toggleView,
     handleId,
+    handleactiveKey
   };
 }
 
