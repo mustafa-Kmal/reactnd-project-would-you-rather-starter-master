@@ -45,10 +45,10 @@ class Login extends Component {
       from: { pathname: "/questions" },
     };
     if (this.state.toHome === true) {
-      console.log(
-        ",,,,,,,,,,,,,,,,,,,,,should now be redirected",
-        this.state.toHome
-      );
+      // console.log(
+      //   ",,,,,,,,,,,,,,,,,,,,,should now be redirected",
+      //   this.state.toHome
+      // );
       return <Redirect className='link' to={from} />;
     }
     return (

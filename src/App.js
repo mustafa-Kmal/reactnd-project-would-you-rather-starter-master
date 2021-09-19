@@ -29,7 +29,7 @@ class App extends Component {
 
   isLogged = () => {
     // e.preventDefault()
-    console.log(",,,,,,,,,,,,,,,,,,,,this.state.isAuthed", this.state.isAuthed);
+    // console.log(",,,,,,,,,,,,,,,,,,,,this.state.isAuthed", this.state.isAuthed);
     const isAuthed = this.state.isAuthed;
 
     this.setState(() => ({
@@ -37,7 +37,7 @@ class App extends Component {
     }));
     // e.stopPropagation()
 
-    console.log(",,,,,,,,,,,,,,,,,,,,this.state.isAuthed", this.state.isAuthed);
+    // console.log(",,,,,,,,,,,,,,,,,,,,this.state.isAuthed", this.state.isAuthed);
 
     return this.state.isAuthed;
   };
@@ -73,10 +73,6 @@ class App extends Component {
             <Route path='/'>
               <Redirect to='/questions' />
             </Route>
-            {/* the : part of the url defines a place hodler for any value, you shoule use this to check if the question is available in the store and whether it's answered by the current user or not */}
-            {/* {window.location.href.includes("/questions/question:") && (
-              <Route path='/questions/question:qid' component={QDetails} />
-            )} */}
             <Route path='/questions/question:qid' component={QDetails} />
             <NotFound />;
           </Switch>

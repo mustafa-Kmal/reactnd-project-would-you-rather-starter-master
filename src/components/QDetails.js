@@ -3,36 +3,35 @@ import React, { Component } from "react";
 // import "../App.css";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Container from "react-bootstrap/Container";
-import { Card } from "react-bootstrap";
-import Figure from "react-bootstrap/Figure";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
-import { handleSaveQuestionAnswer } from "../actions/questions";
 import { Link, Route, useParams } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Results from "./Answered/Results";
 import QuestionCard from "./UnAnswered/QuestionCard";
-import { render } from "@testing-library/react";
 
 class QDetails extends Component {
+  componentDidMount() {
+    // this.props.isQAnsed1()
+    // console.log("when mounts ", this.isQAnsed());
+
+    this.setState(() => ({
+      isAnsed: this.isQAnsed(),
+    }));
+  }
   state = {
     isAnsed: false,
   };
 
   rerenderToResults = () => {
-    // this.setState(() => ({
-    //   isAnsed: true,
-    // }));
-    // thiss.forceUpdate();
-    const ansss = this.state.isAnsed
+    const ansss = this.state.isAnsed;
+    // this.props.isQAnsed1()
+    //   console.log(' ppppppppppppppppppppppppppppppppp')
 
-    this.setState({
-        isAnsed: !ansss,
-      }) ;
+    ansss === false && this.setState({
+      isAnsed: !ansss,
+    });
 
-    
+    // this.isQAnsed()
   };
 
   setToQuestionsView = () => {
@@ -41,71 +40,71 @@ class QDetails extends Component {
     }));
   };
 
-  whatCompToShow = () => {
+  getIdfromURL = () => {
     if (window.location.href.includes("question:")) {
       const length = window.location.href.length;
       const index = window.location.href.indexOf("n:");
       const ddid = window.location.href.substring(index + 2, length);
-
       return ddid;
     }
   };
 
-  isQAnsed = (id)=>{
-    const isAnsed = Object.keys(this.props.authed.answers).includes(id)
-    ? true
-    : false;
+  isQAnsed = (id) => {
 
-    return isAnsed
+
+    const is = Object.keys(this.props.authed.answers).includes(
+      this.getIdfromURL()
+    )
+      ? true
+      : false;
+
+    console.log("..............", Object.keys(this.props.authed.answers) , this.getIdfromURL())
+
+
+   is === true && this.rerenderToResults() 
+
+    return is;
+  };
+
+  componentDidUpdate(){
+
 
   }
 
+  componentWillUnmount() {
+    // console.log('a question will be checked all over again')
+  }
 
-  handleAnswer = (qid, answer) => {
-      console.log('Icame here ')
-    const { dispatch, authedUser } = this.props;
-
-    dispatch(handleSaveQuestionAnswer({ authedUser, qid, answer }));
-  };
-
+  componentWillMount() {
+    // this.setState({ isAnsed: this.props.isQAnsed1() });
+  }
 
   render() {
     return (
- 
-
       <div>
-        {console.log(
-          "jjjjjjjjjjjjjjjjjjjjjjjj",
-          this.props.getIdfromURL() , this.props.isQAnsed1()
-        //   .includes(this.whatCompToShow())
-        )}
+        {/* {console.log("..............", this.state.isAnsed , this.isQAnsed())} */}
+        {/* {this.isQAnsed(this.whatCompToShow())=== false && this.state.isAnsed === false ? ( */}
 
-        {console.log("..............", this.state.isAnsed)}
-        {/* {this.state.isAnsed === false ? ( */}
-            {this.isQAnsed(this.whatCompToShow())=== false && this.state.isAnsed === false ? (
-
+        {this.state.isAnsed === false ? (
           <QuestionCard
-            id={this.whatCompToShow()}
+            id={this.getIdfromURL()}
             rerenderToResults={this.rerenderToResults}
-            handleAnswer={this.handleAnswer}
           />
         ) : (
-          <Results id={this.whatCompToShow()} />
+          <Results id={this.getIdfromURL()} />
         )}
       </div>
     );
   }
 }
 
-function mapStateToProps({ authedUser, Questions, Users }, { id , getIdfromURL , isQAnsed1 }) {
+function mapStateToProps({ authedUser, Users }) {
   const authed = Users[authedUser];
-//   console.log('mmmmmmmmmmmmmmmmmmmmm',getIdfromURL())
 
   return {
     authed,
-    getIdfromURL,
-    isQAnsed1,
-    authedUser
+
+    authedUser,
   };
 }
 

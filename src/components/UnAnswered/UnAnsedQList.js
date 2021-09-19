@@ -8,28 +8,20 @@ import UnAnsweredQTile from "./UnAnsweredQTile";
 import { Route } from "react-router-dom";
 import PrivateRoute from "../PrivateRoute";
 
-
 class UnAnsedQList extends Component {
   render() {
     return (
       <Route
-        
         path='/questions'
         render={() => {
           return (
             <div className='App'>
               <ul>
                 {this.props.QuestionsIds.map((id) => {
-                      // console.log(this.props.id)
-
                   return (
-                    
                     <li key={id}>
                       <UnAnsweredQTile
                         id={id}
-                        toggleView={this.props.toggleView}
-                        
-                        handleId={this.props.handleId}
                         handleactiveKey={this.props.handleactiveKey}
                       />
                     </li>
@@ -45,17 +37,20 @@ class UnAnsedQList extends Component {
 }
 function mapStateToProps(
   { authedUser, Questions, Users },
-  { UnAnsedQs, showingUnAnsweredState, toggleView, handleId , handleactiveKey }
+  { UnAnsedQs, handleactiveKey }
 ) {
+  // console.log(UnAnsedQs)
   return {
-    QuestionsIds: UnAnsedQs.sort((a,b)=> { return Questions[b].timestamp - Questions[a].timestamp}),
+    QuestionsIds: UnAnsedQs.sort((a, b) => {
+      return Questions[b].timestamp - Questions[a].timestamp;
+    }),
     questions: Questions,
     users: Users,
     authedUser,
-    showingUnAnsweredState,
-    toggleView,
-    handleId,
-    handleactiveKey
+    
+    
+    
+    handleactiveKey,
   };
 }
 

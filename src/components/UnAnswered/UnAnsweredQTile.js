@@ -12,10 +12,6 @@ import { Link } from "react-router-dom";
 // import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class UnAnsweredQTile extends Component {
-  handleShowing = (id) => {
-    this.props.toggleView();
-    this.props.handleId(id);
-  };
   render() {
     // console.log(this.props);
 
@@ -55,13 +51,11 @@ class UnAnsweredQTile extends Component {
                     variant='secondary'
                     size='md'
                     onClick={() => {
-                      this.handleShowing(this.props.id);
-                      this.props.handleactiveKey('Question details');
+                      this.props.handleactiveKey("Question details");
                     }}>
                     <Link
                       className='link'
                       to={`/questions/question:${this.props.id}`}>
-                      {/* {console.log(this.props.id)} */}
                       View this Poll
                     </Link>
                   </Button>
@@ -78,7 +72,7 @@ class UnAnsweredQTile extends Component {
 
 function mapStateToProps(
   { authedUser, Questions, Users },
-  { id, showingUnAnsweredState, toggleView, handleId, handleactiveKey }
+  { id, handleactiveKey }
 ) {
   const question = Questions[id];
   const avatar = Users[question.author].avatarURL;
@@ -89,9 +83,7 @@ function mapStateToProps(
     author: Users[question.author].name,
 
     id,
-    showingUnAnsweredState,
-    toggleView,
-    handleId,
+
     handleactiveKey,
   };
 }

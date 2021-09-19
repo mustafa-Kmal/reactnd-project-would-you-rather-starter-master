@@ -5,42 +5,28 @@ import Home from "./Home";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 // import { Route } from "react-router-dom";
-import { Link, Redirect , useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleInitialDataUser } from "../actions/shared";
 
 class Dashboard extends Component {
   state = {
-    ShowingAnswered: true,
-    ShowingAnsweredId: "",
-    ShowingUnAnswered: true,
-    ShowingUnAnsweredId: "",
-    ShowingResults: false,
-
     activeKey: "Home",
     HomeActiveKey: "Unanswered Questions",
-
   };
 
-  handleResetHome = ( key ) => {
+  handleResetHome = (key) => {
     // console.log("ShowingUnAnswered is: " , this.state.ShowingUnAnswered, " showing results is ", this.state.ShowingResults)
     this.handleactiveKey(key);
-    
   };
 
   handleHomeActiveKey = (key) => {
-    this.setState(() => ({
-      HomeActiveKey: key,
-    }));
-  };
-
-
-  handleToggleShowing = () => {
-    const toggle = this.state.ShowingAnswered;
-
-    this.setState(() => ({
-      ShowingAnswered: !toggle,
-    }));
+    this.setState((prev) => {
+      return {
+        ...prev,
+        HomeActiveKey: (prev.HomeActiveKey = key),
+      };
+    });
   };
 
   handleactiveKey = (key) => {
@@ -57,6 +43,7 @@ class Dashboard extends Component {
     return (
       <div className='App App-header'>
         {/* <header className='App-header'> */}
+        {/* {console.log('active key is now :   ' , this.state.activeKey)} */}
 
         <Tabs
           activeKey={this.state.activeKey}
@@ -68,30 +55,23 @@ class Dashboard extends Component {
             title={
               <Link
                 className='link'
-                // to='/questions'
                 to={{
-                  pathname: '/questions',
+                  pathname: "/questions",
                   // state: { activeKey: "Home" },
                 }}
                 onClick={() => {
-                  // this.handleactiveKey("Home");
-                  // this.handleToggleShowing();
-                  this.handleResetHome( "Home" );
-                  // window.history.pushState({activeKey: "Home"}, '', 'http://localhost:3000/questions')
-
+                
+                  this.handleResetHome("Home");
                 }}>
                 Home
               </Link>
             }>
-            <Home
+           {this.state.activeKey === "Home" ?  <Home
               ShowingAnswered={this.handleToggleShowing}
-              state={this.state.ShowingAnswered}
-              ShowingAnsweredId={this.state.ShowingAnsweredId}
-              ShowingAnswered={this.state.ShowingAnswered}
-              ShowingUnAnswered={this.state.ShowingUnAnswered}
-              ShowingResults ={this.state.ShowingResults}
               HomeActiveKey={this.state.HomeActiveKey}
-            />
+            />: 
+            null
+            }
           </Tab>
 
           <Tab
@@ -101,20 +81,24 @@ class Dashboard extends Component {
                 className='link'
                 // to='/add'
                 to={{
-                  pathname: '/add',
+                  pathname: "/add",
                   // state: { activeKey: "New Question" },
                 }}
                 onClick={() => {
                   this.handleactiveKey("New Question");
-                  window.history.pushState({activeKey: "New Question"}, '', 'http://localhost:3000/add')
-
-
+                  window.history.pushState(
+                    { activeKey: "New Question" },
+                    "",
+                    "http://localhost:3000/add"
+                  );
                 }}>
                 New Question
               </Link>
             }>
-            <NewQuestionCard toggleTabView={this.handleactiveKey}
-            HomeActiveKey={this.handleHomeActiveKey} />
+            <NewQuestionCard
+              toggleTabView={this.handleactiveKey}
+              HomeActiveKey={this.handleHomeActiveKey}
+            />
           </Tab>
 
           <Tab
@@ -125,7 +109,6 @@ class Dashboard extends Component {
                 to='/leaderboard'
                 onClick={() => {
                   this.handleactiveKey("leaderboard");
-
                 }}>
                 Leader Board
               </Link>
@@ -147,7 +130,6 @@ class Dashboard extends Component {
                 Log out
               </Link>
             }></Tab>
-
         </Tabs>
       </div>
     );

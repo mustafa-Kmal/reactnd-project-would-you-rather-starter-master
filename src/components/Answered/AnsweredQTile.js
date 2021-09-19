@@ -14,10 +14,10 @@ import { Link } from "react-router-dom";
 // import { BrowserRouter as Routesr, Route } from "react-router-dom";
 
 class AnsweredQTile extends Component {
-  handleShowing = (id) => {
-    this.props.toggleView();
-    this.props.handleId(id);
-  };
+  // handleShowing = (id) => {
+  //   this.props.toggleView();
+  //   this.props.handleId(id);
+  // };
   render() {
     return (
       <Card
@@ -51,7 +51,7 @@ class AnsweredQTile extends Component {
                   variant='secondary'
                   size='md'
                   onClick={() => {
-                   return this.handleShowing(this.props.id);
+                  //  return this.handleShowing(this.props.id);
                   }}>
                   <Link
                     className='link'
@@ -74,7 +74,7 @@ class AnsweredQTile extends Component {
 
 function mapStateToProps(
   { authedUser, Questions, Users },
-  { id, toggleView, handleId  , handleactiveKey }
+  { id,  handleactiveKey }
 ) {
   const question = Questions[id];
   const avatar = Users[question.author].avatarURL;
@@ -85,8 +85,8 @@ function mapStateToProps(
     author: Users[question.author].name,
     avatar,
     id,
-    toggleView,
-    handleId,
+    // toggleView,
+    // handleId,
     handleactiveKey
 
   };

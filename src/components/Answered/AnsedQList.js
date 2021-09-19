@@ -4,19 +4,34 @@ import { connect } from "react-redux";
 import { Component } from "react";
 import AnsweredQTile from "./AnsweredQTile";
 import { Route } from "react-router-dom";
-import PrivateRoute from '../PrivateRoute'
+import PrivateRoute from "../PrivateRoute";
 
 class AnsedQList extends Component {
-  state = {
-    Showing: this.props.showingAnsweredState,
-    // Showing: false,
-  };
+  // componentWillUnmount(){}
+  // componentDidMount() {
+  //   // console.log('a question will be checked all over again')
+  //   this.updateList();
+  // }
 
-  handleToggleShowing = () => {
-    this.setState((currState) => ({
-      Showing: !currState.Showing,
-    }));
-  };
+  // componentDidUpdate(prevProps) {
+  //   if ((this.props.AnsedQs !== prevProps.AnsedQs)) {
+  //     this.setState(() => ({
+  //       ansd: this.props.AnsedQs,
+  //     }));
+  //   }
+  // }
+
+  // state = {
+  //   ansd: [],
+  // };
+
+  // updateList = () => {
+  //   this.setState(() => ({
+  //     ansd: this.props.AnsedQs,
+  //   }));
+  // };
+
+
 
   render() {
     return (
@@ -25,22 +40,18 @@ class AnsedQList extends Component {
           path='/questions'
           render={() => {
             return (
-              <div className='App'>
-                <ul>
-                  {this.props.QuestionsIds.map((id) => {
-                    return (
-                      <li key={id}>
-                        <AnsweredQTile
-                          toggleView={this.props.toggleView}
-                          id={id}
-                          handleId={this.props.handleId}
-                          handleactiveKey={this.props.handleactiveKey}
-                        />
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+              <ul>
+                {this.props.AnsedQs.map((id) => {
+                  return (
+                    <li key={id}>
+                      <AnsweredQTile
+                        id={id}
+                        handleactiveKey={this.props.handleactiveKey}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
             );
           }}
         />
@@ -49,17 +60,28 @@ class AnsedQList extends Component {
   }
 }
 function mapStateToProps(
-  { Questions, Users },
-  { AnsedQs, toggleView, showingAnsweredState, handleId, handleactiveKey }
+  { Questions, Users, authedUser },
+  // { handleId, handleactiveKey }
 ) {
+  const AnsedQs =  Object.keys(Users[authedUser].answers)
+
+
+  // Object.keys(Users[authedUser].answers).map((id)=> AnsedQs.push(id) )
+
+
+  console.log(AnsedQs)
+
   return {
-    QuestionsIds: AnsedQs.sort((a,b)=> { return Questions[b].timestamp - Questions[a].timestamp}),
+    QuestionsIds: AnsedQs.sort((a, b) => {
+      return Questions[b].timestamp - Questions[a].timestamp;
+    }),
     questions: Questions,
     users: Users,
-    toggleView,
-    showingAnsweredState,
-    handleId,
-    handleactiveKey
+
+    // handleId,
+    // handleactiveKey,
+    // // AnsedQs: Object.keys( Users[authedUser].answers),
+    AnsedQs,
   };
 }
 
