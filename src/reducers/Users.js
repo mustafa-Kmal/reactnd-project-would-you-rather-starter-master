@@ -1,4 +1,5 @@
 import  { RECEIVE_USERS } from '../actions/users'
+// import {ADD_QUESTION} from '../actions/questions'
  
 export default function users ( state = {} , action ){
     switch (action.type){
@@ -7,6 +8,7 @@ export default function users ( state = {} , action ){
                 ...state, 
                 ...action.users
             }
+ 
         default : 
             return state 
     }

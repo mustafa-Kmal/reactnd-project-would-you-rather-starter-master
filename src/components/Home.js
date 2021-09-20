@@ -6,7 +6,7 @@ import QuestionCard from "./UnAnswered/QuestionCard";
 import AnsedQList from "./Answered/AnsedQList";
 import UnAnsedQList from "./UnAnswered/UnAnsedQList";
 import { Link } from "react-router-dom";
-import { Route } from "react-router-dom";
+import { Route , withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Component } from "react";
 import Results from "./Answered/Results";
@@ -14,8 +14,16 @@ import PrivateRoute from "./PrivateRoute";
 import QDetails from "./QDetails";
 
 class Home extends Component {
+
+
+  componentDidMount(){
+    console.log(window.location.href.includes("/questions/question:"))
+    window.location.href.includes("/questions/question:") &&  this.handleResetDetails()
+    !window.location.href.includes("/questions/question:") &&  this.handleResetUnAnsed()
+
+  }
   state = {
-    // activeKey :  'Unanswered Questions'
+    // activeKey :  'Unanswered details',
     activeKey: this.props.HomeActiveKey,
     isQAnsed: false,
 
@@ -24,7 +32,7 @@ class Home extends Component {
   };
 
   handleactiveKey = (key) => {
-    // console.log("active key is : ", this.state.activeKey);
+    console.log("i came here for some reason 22 ");
     this.setState(() => ({
       activeKey: key,
     }));
@@ -48,6 +56,11 @@ class Home extends Component {
     this.handleactiveKey("Unanswered Questions");
   };
 
+  handleResetDetails = () => {
+
+    console.log('i came here for some reason ')
+    this.handleactiveKey("Question details");
+  };
   // shouldComponentUpdate = (nextState) => {
   //   console.log('will rerender' , this.isQAnsed())
   //   this.isQAnsed();
@@ -64,7 +77,7 @@ class Home extends Component {
           return (
             <div className='App second-tab'>
               <Tabs
-                activeKey={this.state.activeKey}
+                // activeKey= {this.state.activeKey}
                 defaultActiveKey='Unanswered Questions'
                 id='uncontrolled-tab-example'
                 className='mb-3 second-tab'>
@@ -81,7 +94,7 @@ class Home extends Component {
                   className='link'>
                   {this.state.activeKey === "Answered Questions" ? (
                     <AnsedQList
-                      AnsedQs={this.props.AnsedQs}
+                      // AnsedQs={this.props.AnsedQs}
                       handleactiveKey={this.handleactiveKey}
                     />
                   ) : null}
@@ -100,7 +113,7 @@ class Home extends Component {
                   className='link'>
                   {this.state.activeKey === "Unanswered Questions" ? (
                     <UnAnsedQList
-                      UnAnsedQs={this.props.UnAnsedQs}
+                      // UnAnsedQs={this.props.UnAnsedQs}
                       handleactiveKey={this.handleactiveKey}
                     />
                   ) : null}
@@ -110,12 +123,14 @@ class Home extends Component {
                   eventKey='Question details'
                   title={`Question details`}
                   disabled={!window.location.href.includes("question:")}
-                  // onSelect={this.isQAnsed()}
-                >
+                  // onSelect={() => this.handleactiveKey("Question details")}
+                  >
                   {window.location.href.includes("/questions/question:") &&
                     (this.state.activeKey === "Question details" ? (
-                      <QDetails />
+                      // <Route path='/questions/question:' render ={()=> <QDetails /> }/> 
+                      <QDetails /> 
                     ) : null)}
+
                 </Tab>
               </Tabs>
             </div>
@@ -127,42 +142,23 @@ class Home extends Component {
 }
 
 function mapStateToProps({ authedUser, Questions, Users }, { HomeActiveKey }) {
-  const AnsedQs = [];
-  const UnAnsedQs = [];
-
-  Object.entries(Questions).map((q) => {
-    const op1 = q[1].optionOne.votes;
-    const op2 = q[1].optionTwo.votes;
-    if (!op1.includes(authedUser) && !op2.includes(authedUser)) {
-      UnAnsedQs.push(q[1].id);
-    } else {
-      AnsedQs.push(q[1].id);
-    }
-  });
-
-  // const AnsedQs2 = Object.keys(Users[authedUser].answers);
-
-  // const UnAnsedQs2 = Object.keys(Questions).filter(
-  //   (el) => !AnsedQs2.includes(el)
-  // );
-
-  // console.log(' answered are ',AnsedQs2  , 'unanswered are ', UnAnsedQs2 ,  Object.keys(Questions).length )
 
   return {
     QuestionsIds: Object.keys(Questions),
     questions: Questions,
-    users: Users,
     authedUser,
-    AnsedQs: AnsedQs,
-    // AnsedQs: AnsedQs2,
-
-    // AnsedQs: Object.keys( Users[authedUser].answers),
-    // UnAnsedQs: UnAnsedQs2,
-
-    UnAnsedQs: UnAnsedQs,
+   
     Users,
     HomeActiveKey,
   };
 }
 
-export default connect(mapStateToProps)(Home);
+export default  withRouter(connect(mapStateToProps)(Home));
+
+
+/*
+
+http://localhost:3000/questions/question:xj352vofupe1dqz9emx13r
+
+
+*/

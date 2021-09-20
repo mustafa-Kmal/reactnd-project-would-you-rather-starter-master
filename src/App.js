@@ -3,7 +3,13 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/Login";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  Redirect,
+  withRouter,
+} from "react-router-dom";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleInitialUsers, handleInitialDataUser } from "./actions/shared";
@@ -15,6 +21,7 @@ import QDetails from "./components/QDetails";
 class App extends Component {
   state = {
     selelctedUser: "",
+    currentUserName: "logged out ",
     isAuthed: false,
   };
   componentDidMount() {
@@ -23,43 +30,56 @@ class App extends Component {
 
   handleChoosenUser = (user) => {
     const USER = this.props.Users[user];
-
     this.props.dispatch(handleInitialDataUser(USER.id));
-  };
-
-  isLogged = () => {
-    // e.preventDefault()
-    // console.log(",,,,,,,,,,,,,,,,,,,,this.state.isAuthed", this.state.isAuthed);
-    const isAuthed = this.state.isAuthed;
 
     this.setState(() => ({
-      isAuthed: !isAuthed,
+      currentUserName: this.props.authedUser,
     }));
-    // e.stopPropagation()
-
-    // console.log(",,,,,,,,,,,,,,,,,,,,this.state.isAuthed", this.state.isAuthed);
-
-    return this.state.isAuthed;
   };
 
   render() {
     return (
       <div className='App App-header'>
         <Fragment>
-          <Switch>
-            <Route
-              exact
-              path='/Login'
-              render={() => {
-                return this.props.loadingUsers === true ? null : (
-                  <Login
-                    isLogged={this.isLogged}
-                    handleChoosenUser={this.handleChoosenUser}
-                  />
-                );
-              }}
-            />
-            {/* <Route  PrivateRoute */}
+          {!this.props.logged ? (
+            <Login handleChoosenUser={this.handleChoosenUser} />
+          ) : (
+            <Switch>
+              <Route path='/questions/question:qid' component={QDetails} />
+
+              <Route
+                path='/'
+                // isLogged={this.isLogged}
+                render={() => {
+                  return this.props.loadingQuestions === true ||
+                    this.props.loadingauthedUser === true ? null : (
+                    <Dashboard />
+                  );
+                }}
+              />
+              <Route path='/'>
+                <Redirect to='/questions' />
+              </Route>
+              {/* <Route path='/questions/question:qid' component={QDetails} /> */}
+
+              <Route path='*' component={NotFound} />
+            </Switch>
+          )}
+
+          {/* <Route
+            exact
+            path='/Login'
+            render={() => {
+              return this.props.loadingUsers === true ? null : (
+                <Login
+                  isLogged={this.isLogged}
+                  handleChoosenUser={this.handleChoosenUser}
+                />
+              );
+            }}
+          /> */}
+
+          {/* <Switch>
             <Route
               path='/'
               isLogged={this.isLogged}
@@ -74,8 +94,9 @@ class App extends Component {
               <Redirect to='/questions' />
             </Route>
             <Route path='/questions/question:qid' component={QDetails} />
-            <NotFound />;
-          </Switch>
+
+            <Route path='*' component={NotFound} />
+          </Switch> */}
         </Fragment>
       </div>
     );
@@ -83,6 +104,8 @@ class App extends Component {
 }
 
 function mapStateToProps({ Users, authedUser, Questions }) {
+  const logged = authedUser === null ? false : true;
+
   return {
     loadingUsers: Users === null,
     loadingQuestions: Questions === null,
@@ -90,7 +113,8 @@ function mapStateToProps({ Users, authedUser, Questions }) {
 
     Users,
     authedUser,
+    logged,
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));

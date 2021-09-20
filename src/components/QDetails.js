@@ -27,11 +27,11 @@ class QDetails extends Component {
     // this.props.isQAnsed1()
     //   console.log(' ppppppppppppppppppppppppppppppppp')
 
-    ansss === false && this.setState({
-      isAnsed: !ansss,
-    });
+    ansss === false &&
+      this.setState({
+        isAnsed: !ansss,
+      });
 
-    // this.isQAnsed()
   };
 
   setToQuestionsView = () => {
@@ -50,50 +50,40 @@ class QDetails extends Component {
   };
 
   isQAnsed = (id) => {
-
-
     const is = Object.keys(this.props.authed.answers).includes(
       this.getIdfromURL()
     )
       ? true
       : false;
 
-    console.log("..............", Object.keys(this.props.authed.answers) , this.getIdfromURL())
+    console.log(
+      "..............",
+      Object.keys(this.props.authed.answers),
+      this.getIdfromURL()
+    );
 
-
-   is === true && this.rerenderToResults() 
+    is === true && this.rerenderToResults();
 
     return is;
   };
 
-  componentDidUpdate(){
-
-
-  }
-
-  componentWillUnmount() {
-    // console.log('a question will be checked all over again')
-  }
-
-  componentWillMount() {
-    // this.setState({ isAnsed: this.props.isQAnsed1() });
-  }
-
   render() {
     return (
-      <div>
-        {/* {console.log("..............", this.state.isAnsed , this.isQAnsed())} */}
-        {/* {this.isQAnsed(this.whatCompToShow())=== false && this.state.isAnsed === false ? ( */}
+    //   <Route path='/questions/question:'>
+        <div>
+          {this.state.isAnsed === false ? (
+            <QuestionCard
+              id={this.getIdfromURL()}
+              rerenderToResults={this.rerenderToResults}
+            />
+          ) : (
+            <Results id={this.getIdfromURL()} />
+          )}
+        </div>
+    //    {/* </Route>  */}
 
-        {this.state.isAnsed === false ? (
-          <QuestionCard
-            id={this.getIdfromURL()}
-            rerenderToResults={this.rerenderToResults}
-          />
-        ) : (
-          <Results id={this.getIdfromURL()} />
-        )}
-      </div>
+
+      
     );
   }
 }

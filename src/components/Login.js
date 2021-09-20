@@ -4,28 +4,30 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import { Card } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
-// import { Link } from "react-router-dom";
-// import { Route } from "react-router-dom";
+import { Route, Link, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
 import Button from "react-bootstrap/Button";
-
-import { Link, Redirect } from "react-router-dom";
+import { createBrowserHistory } from "history";
 
 class Login extends Component {
+  // componentDidMount() {
+  //   this.setState(() => ({
+  //     upadteFrom: this.props.customHistory.location.state.from,
+  //   }));
+  // }
   state = {
     selelctedUser: "",
     toHome: false,
+    upadteFrom: '',
   };
 
   handleChoosenUser2 = (user) => {
-    // this.props.handleChoosenUser(user);
-    // this.setState(() => ({
-    //   toHome: true,
-    // }));
+  
 
-    this.setState(() => ({
-      selelctedUser: user,
+    this.setState((prev) => ({
+      selelctedUser: prev.selelctedUser=user,
+      
     }));
   };
 
@@ -33,24 +35,12 @@ class Login extends Component {
     // e.preventDefault()
 
     this.props.handleChoosenUser(this.state.selelctedUser);
-    this.props.isLogged();
-
-    this.setState(() => ({
-      toHome: true,
-    }));
+    
   };
 
   render() {
-    const { from } = this.props.location || {
-      from: { pathname: "/questions" },
-    };
-    if (this.state.toHome === true) {
-      // console.log(
-      //   ",,,,,,,,,,,,,,,,,,,,,should now be redirected",
-      //   this.state.toHome
-      // );
-      return <Redirect className='link' to={from} />;
-    }
+
+ 
     return (
       <Card
         bg={"dark"}
@@ -91,10 +81,12 @@ class Login extends Component {
             onClick={() => {
               this.setSelectedUser();
             }}
-            // onClick={() =>  this.props.isLogged }
 
             disabled={this.state.selelctedUser === ""}>
-            <Link to={`/questions`} className='link'>
+            <Link
+              to={`/questions`}
+              className='link'
+            >
               Log in
             </Link>
           </Button>
@@ -108,8 +100,8 @@ function mapStateToProps(
   { Users, authedUser },
   { handleChoosenUser, isLogged }
 ) {
-  // const issLogged = isLogged();
-  // console.log(".....................................s", issLogged, authedUser);
+
+
   return {
     UsersIds: Object.keys(Users),
     Users,
@@ -118,7 +110,7 @@ function mapStateToProps(
   };
 }
 
-export default connect(mapStateToProps)(Login);
+export default withRouter(connect(mapStateToProps)(Login));
 
 /*
 
@@ -126,3 +118,4 @@ http://localhost:3000/questions/question:xj352vofupe1dqz9emx13r
 
 
 */
+

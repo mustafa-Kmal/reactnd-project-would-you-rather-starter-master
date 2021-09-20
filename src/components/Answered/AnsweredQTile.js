@@ -12,6 +12,8 @@ import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 // import { BrowserRouter as Routesr, Route } from "react-router-dom";
+import Results from "../Answered/Results";
+
 
 class AnsweredQTile extends Component {
   // handleShowing = (id) => {
@@ -61,7 +63,10 @@ class AnsweredQTile extends Component {
                     }}
                   >
                     View This Poll
+
+                   
                   </Link>
+                  {/* <Results id ={this.props.id}/> */}
                 </Button>
               </Card.Body>
             </Col>
@@ -85,8 +90,6 @@ function mapStateToProps(
     author: Users[question.author].name,
     avatar,
     id,
-    // toggleView,
-    // handleId,
     handleactiveKey
 
   };

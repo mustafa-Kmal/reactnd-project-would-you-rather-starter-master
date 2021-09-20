@@ -37,9 +37,30 @@ class UnAnsedQList extends Component {
 }
 function mapStateToProps(
   { authedUser, Questions, Users },
-  { UnAnsedQs, handleactiveKey }
+  { handleactiveKey }
 ) {
   // console.log(UnAnsedQs)
+  // const AnsedQs2 = Object.keys(Users[authedUser].answers);
+
+  // const UnAnsedQs2 = Object.keys(Questions).filter(
+  //   (el) => !AnsedQs2.includes(el)
+  // );
+  const AnsedQs = [];
+  const UnAnsedQs = [];
+  Object.entries(Questions).map((q) => {
+    const op1 = q[1].optionOne.votes;
+    const op2 = q[1].optionTwo.votes;
+    if (!op1.includes(authedUser) && !op2.includes(authedUser)) {
+      UnAnsedQs.push(q[1].id);
+    } else {
+      AnsedQs.push(q[1].id);
+    }
+  });
+
+
+
+
+
   return {
     QuestionsIds: UnAnsedQs.sort((a, b) => {
       return Questions[b].timestamp - Questions[a].timestamp;
@@ -48,7 +69,7 @@ function mapStateToProps(
     users: Users,
     authedUser,
     
-    
+    UnAnsedQs : UnAnsedQs,
     
     handleactiveKey,
   };

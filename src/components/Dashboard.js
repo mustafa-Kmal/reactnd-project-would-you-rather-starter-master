@@ -5,7 +5,7 @@ import Home from "./Home";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 // import { Route } from "react-router-dom";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleInitialDataUser } from "../actions/shared";
 
@@ -42,8 +42,6 @@ class Dashboard extends Component {
   render() {
     return (
       <div className='App App-header'>
-        {/* <header className='App-header'> */}
-        {/* {console.log('active key is now :   ' , this.state.activeKey)} */}
 
         <Tabs
           activeKey={this.state.activeKey}
@@ -145,4 +143,5 @@ function mapStateToProps({ Questions, authedUser, Users }) {
   };
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default  withRouter(connect(mapStateToProps)(Dashboard));
+// export default  connect(mapStateToProps)(Dashboard);

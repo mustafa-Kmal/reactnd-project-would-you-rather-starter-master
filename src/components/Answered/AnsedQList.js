@@ -7,32 +7,7 @@ import { Route } from "react-router-dom";
 import PrivateRoute from "../PrivateRoute";
 
 class AnsedQList extends Component {
-  // componentWillUnmount(){}
-  // componentDidMount() {
-  //   // console.log('a question will be checked all over again')
-  //   this.updateList();
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if ((this.props.AnsedQs !== prevProps.AnsedQs)) {
-  //     this.setState(() => ({
-  //       ansd: this.props.AnsedQs,
-  //     }));
-  //   }
-  // }
-
-  // state = {
-  //   ansd: [],
-  // };
-
-  // updateList = () => {
-  //   this.setState(() => ({
-  //     ansd: this.props.AnsedQs,
-  //   }));
-  // };
-
-
-
+ 
   render() {
     return (
       <div>
@@ -63,13 +38,33 @@ function mapStateToProps(
   { Questions, Users, authedUser },
   // { handleId, handleactiveKey }
 ) {
-  const AnsedQs =  Object.keys(Users[authedUser].answers)
+  // const AnsedQs =  Object.keys(Users[authedUser].answers)
 
 
-  // Object.keys(Users[authedUser].answers).map((id)=> AnsedQs.push(id) )
+  // // Object.keys(Users[authedUser].answers).map((id)=> AnsedQs.push(id) )
 
 
-  console.log(AnsedQs)
+  // console.log(AnsedQs)
+
+  const AnsedQs = [];
+  const UnAnsedQs = [];
+
+  Object.entries(Questions).map((q) => {
+    const op1 = q[1].optionOne.votes;
+    const op2 = q[1].optionTwo.votes;
+    if (!op1.includes(authedUser) && !op2.includes(authedUser)) {
+      UnAnsedQs.push(q[1].id);
+    } else {
+      AnsedQs.push(q[1].id);
+    }
+  });
+
+
+
+
+
+
+
 
   return {
     QuestionsIds: AnsedQs.sort((a, b) => {

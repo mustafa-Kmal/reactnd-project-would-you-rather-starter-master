@@ -1,32 +1,44 @@
 import { render } from "@testing-library/react";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  BrowserRouter,
-  Route,
-  Redirect,
- 
-} from "react-router-dom";
+import { BrowserRouter, Route, Redirect, withRouter } from "react-router-dom";
 
 class PrivateRoute extends Component {
   render() {
-    console.log(
-      "33333333333333333333333333333333333333333",
-      this.props.authedUser
-    );
+  
+    this.props.history.push(`${this.props.comingFrom}`, {
+      pathname: this.props.comingFrom,
+    });
+
+    // console.log(
+    //   "33333333333333333333333333333333333333333",
+    //   this.props.authedUser,
+    //   this.props.location.pathname,
+    //   this.props.comingFrom,
+    //   // this.props.history,
+    //   this.props.history.push(`${this.props.comingFrom}`, {
+    //     pathname: this.props.comingFrom,
+    //   }),
+    //   this.props.history,
+    //   "from",
+    //   this.props.restOfProps,
+    //   " this.props.history,",
+    //   this.props
+    // );
+
     return (
       <Route
-        {...this.props.restOfProps}
+        {...this.props}
         render={(props) => {
-          return this.props.authedUserr ? (
+          return this.props.authedUser ? (
             <Component {...props} />
           ) : (
             <Redirect
               to={{
                 pathname: "/Login",
-                state: { from: this.props.location },
-              }}
-            />
+                state: { from: props.location.pathname },
+              }}>
+            </Redirect>
           );
         }}
       />
@@ -36,19 +48,28 @@ class PrivateRoute extends Component {
 
 function mapStateToProps(
   { authedUser },
-  { component: Component, isLogged, ...restOfProps }
+  { component: Component, ...restOfProps }
 ) {
-
   // const authedUserr = 'tylermcginnis'
   // const authedUserr = ''
+  const comingFrom = restOfProps.location.pathname;
+  const f2 = restOfProps.history;
+
+  const f3 =
+    restOfProps.history.location.state !== "undefined"
+      ? restOfProps.history.location.state
+      : restOfProps.history.location.state.from;
+
+  // console.log('from',restOfProps)
 
   return {
     authedUser,
     Component,
-    isLogged,
+    location: restOfProps.location,
+    comingFrom,
     ...restOfProps,
-
   };
 }
 
-export default connect(mapStateToProps, null, null , {pure: false,} )(PrivateRoute);
+export default withRouter(connect(mapStateToProps)(PrivateRoute));
+
