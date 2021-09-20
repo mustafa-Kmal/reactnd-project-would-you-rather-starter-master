@@ -65,7 +65,6 @@ class Dashboard extends Component {
               </Link>
             }>
            {this.state.activeKey === "Home" ?  <Home
-              ShowingAnswered={this.handleToggleShowing}
               HomeActiveKey={this.state.HomeActiveKey}
             />: 
             null
@@ -84,11 +83,7 @@ class Dashboard extends Component {
                 }}
                 onClick={() => {
                   this.handleactiveKey("New Question");
-                  window.history.pushState(
-                    { activeKey: "New Question" },
-                    "",
-                    "http://localhost:3000/add"
-                  );
+              
                 }}>
                 New Question
               </Link>
@@ -121,8 +116,6 @@ class Dashboard extends Component {
 
           <Tab
             eventKey='logout'
-            // title={`Signed in as: ${this.props.authedUser}`}
-
             title={
               <Link className='link' to='/Login' onClick={this.handleLogout}>
                 Log out
@@ -138,10 +131,8 @@ function mapStateToProps({ Questions, authedUser, Users }) {
   const name = Users[authedUser].name;
   return {
     QuestionsIds: Object.keys(Questions),
-    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
     name,
   };
 }
 
 export default  withRouter(connect(mapStateToProps)(Dashboard));
-// export default  connect(mapStateToProps)(Dashboard);

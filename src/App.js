@@ -45,8 +45,9 @@ class App extends Component {
             <Login handleChoosenUser={this.handleChoosenUser} />
           ) : (
             <Switch>
-              <Route path='/questions/question:qid' component={QDetails} />
-
+              {/* <Route path='/questions/question:qid'>
+                <QDetails />
+              </Route> */}
               <Route
                 path='/'
                 // isLogged={this.isLogged}
@@ -57,16 +58,17 @@ class App extends Component {
                   );
                 }}
               />
-              <Route path='/'>
+
+              {/* <Route exact path='/'>
                 <Redirect to='/questions' />
-              </Route>
-              {/* <Route path='/questions/question:qid' component={QDetails} /> */}
+              </Route> */}
 
               <Route path='*' component={NotFound} />
             </Switch>
           )}
 
-          {/* <Route
+          {/* 
+          <Route
             exact
             path='/Login'
             render={() => {
@@ -77,9 +79,10 @@ class App extends Component {
                 />
               );
             }}
-          /> */}
+          />
 
-          {/* <Switch>
+          <Switch>
+
             <Route
               path='/'
               isLogged={this.isLogged}

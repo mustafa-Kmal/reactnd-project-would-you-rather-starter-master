@@ -1,10 +1,31 @@
 # Would You Rather Project
 
-This is a simple web app that simulates a would you rather game that lets the user add new polls and shows how many users choose which option for a given poll.
+This is the starter code for the final assessment project for Udacity's React & Redux course.
 
 The `_DATA.js` file represents a fake database and methods that let you access the data. The only thing you need to edit in the ` _DATA.js` file is the value of `avatarURL`. Each user should have an avatar, so you’ll need to add the path to each user’s avatar.
 
 Using the provided starter code, you'll build a React/Redux front end for the application. We recommend using the [Create React App](https://github.com/facebook/create-react-app) to bootstrap the project.
+
+## How to Load the App
+* Clone the repository to your local machine 
+* Within the **downloaded folder** open and new **new ternial window** (or from the openned folder in **vscode**) and then type: 
+```
+npm install
+```
+* Once all of the dependencies have been installed you can launch the app with
+```
+npm start
+```
+* A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/Login in your browser  
+
+## Issues with the app functionality 
+
+* Private routes didn't work properly. PrivateRoute component doesn't correctly check if the authedUser is a thing and hence, doesn't redirect to the main page intended 
+* Some links seem to lag randomly or simply need to be clicked twice
+* The console warnings are related to things lefts as comments realted to PrivateRoute component and functionality 
+* The Login page is at /Login because it was intended to be the page the user is redirected to if is not authed, I left it as is for now
+
+
 
 ## Data
 
@@ -99,21 +120,3 @@ Your code will talk to the database via 4 methods:
 
 This repository is the starter code for *all* Udacity students. Therefore, we most likely will not accept pull requests. For details, check out [CONTRIBUTING.md](https://github.com/udacity/reactnd-project-would-you-rather-starter/blob/master/CONTRIBUTING.md).
 
-
-
-
-# MyReads
-Project Purpose:
-This game was built for the Udacity React Nanodegree Program. The purpose of the project is to demonstrate understanding of the basic structure and operation of a React-based app.
-
-## How to Load the App
-* Clone the repository to your local machine 
-* Within the **downloaded folder** open and new **new ternial window** (or from the openned folder in **vscode**) and then type: 
-```
-npm install
-```
-* Once all of the dependencies have been installed you can launch the app with
-```
-npm start
-```
-* A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/ in your browser  

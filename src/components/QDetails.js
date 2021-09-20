@@ -8,12 +8,11 @@ import { Link, Route, useParams } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Results from "./Answered/Results";
 import QuestionCard from "./UnAnswered/QuestionCard";
+import NotFound from "./NotFound";
+
 
 class QDetails extends Component {
   componentDidMount() {
-    // this.props.isQAnsed1()
-    // console.log("when mounts ", this.isQAnsed());
-
     this.setState(() => ({
       isAnsed: this.isQAnsed(),
     }));
@@ -24,14 +23,10 @@ class QDetails extends Component {
 
   rerenderToResults = () => {
     const ansss = this.state.isAnsed;
-    // this.props.isQAnsed1()
-    //   console.log(' ppppppppppppppppppppppppppppppppp')
-
     ansss === false &&
       this.setState({
         isAnsed: !ansss,
       });
-
   };
 
   setToQuestionsView = () => {
@@ -56,20 +51,28 @@ class QDetails extends Component {
       ? true
       : false;
 
-    console.log(
-      "..............",
-      Object.keys(this.props.authed.answers),
-      this.getIdfromURL()
-    );
-
     is === true && this.rerenderToResults();
 
     return is;
   };
 
+  isInDataBase = () => {
+    const isAQuestion = Object.keys(this.props.Questions).includes(
+      this.getIdfromURL()
+    )
+      ? true
+      : false;
+    return isAQuestion;
+  };
+
   render() {
+
+    {!this.isInDataBase()&&
+    <NotFound/ >
+    
+    }
     return (
-    //   <Route path='/questions/question:'>
+      <Route path='/questions/question:'>
         <div>
           {this.state.isAnsed === false ? (
             <QuestionCard
@@ -80,21 +83,19 @@ class QDetails extends Component {
             <Results id={this.getIdfromURL()} />
           )}
         </div>
-    //    {/* </Route>  */}
-
-
-      
+      </Route>
     );
   }
 }
 
-function mapStateToProps({ authedUser, Users }) {
+function mapStateToProps({ authedUser, Users, Questions }) {
   const authed = Users[authedUser];
 
   return {
     authed,
 
     authedUser,
+    Questions,
   };
 }
 

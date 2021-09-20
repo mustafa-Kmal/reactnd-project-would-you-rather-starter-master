@@ -36,15 +36,8 @@ class AnsedQList extends Component {
 }
 function mapStateToProps(
   { Questions, Users, authedUser },
-  // { handleId, handleactiveKey }
 ) {
-  // const AnsedQs =  Object.keys(Users[authedUser].answers)
-
-
-  // // Object.keys(Users[authedUser].answers).map((id)=> AnsedQs.push(id) )
-
-
-  // console.log(AnsedQs)
+  
 
   const AnsedQs = [];
   const UnAnsedQs = [];
