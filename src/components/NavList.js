@@ -44,7 +44,6 @@ class NavList extends Component {
               <NavLink
                 activeClassName='active'
                 className='tabLink'
-                // to={ this.props.history.location.pathname.includes("/questions/question:") && this.props.history.location.pathname}
                 to= '/question'
                 
                 >
@@ -82,29 +81,13 @@ class NavList extends Component {
   }
 }
 function mapStateToProps({ Questions, Users, authedUser }) {
-  const AnsedQs = [];
-  const UnAnsedQs = [];
 
-  Object.entries(Questions).map((q) => {
-    const op1 = q[1].optionOne.votes;
-    const op2 = q[1].optionTwo.votes;
-    if (!op1.includes(authedUser) && !op2.includes(authedUser)) {
-      UnAnsedQs.push(q[1].id);
-    } else {
-      AnsedQs.push(q[1].id);
-    }
-  });
   const UserName = authedUser
     ? Users[authedUser].name
     : "you are not signed in";
 
   return {
-    QuestionsIds: AnsedQs.sort((a, b) => {
-      return Questions[b].timestamp - Questions[a].timestamp;
-    }),
-    questions: Questions,
-    users: Users,
-    AnsedQs,
+  
     UserName,
   };
 }

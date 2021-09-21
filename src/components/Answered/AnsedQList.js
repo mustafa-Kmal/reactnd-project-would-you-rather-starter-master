@@ -22,18 +22,10 @@ class AnsedQList extends Component {
   }
 }
 function mapStateToProps({ Questions, Users, authedUser }) {
-  const AnsedQs = [];
-  const UnAnsedQs = [];
 
-  Object.entries(Questions).map((q) => {
-    const op1 = q[1].optionOne.votes;
-    const op2 = q[1].optionTwo.votes;
-    if (!op1.includes(authedUser) && !op2.includes(authedUser)) {
-      UnAnsedQs.push(q[1].id);
-    } else {
-      AnsedQs.push(q[1].id);
-    }
-  });
+
+
+  const AnsedQs = Object.keys(Users[authedUser].answers)
 
   return {
     QuestionsIds: AnsedQs.sort((a, b) => {
@@ -41,7 +33,7 @@ function mapStateToProps({ Questions, Users, authedUser }) {
     }),
     questions: Questions,
     users: Users,
-    AnsedQs,
+    AnsedQs ,
   };
 }
 

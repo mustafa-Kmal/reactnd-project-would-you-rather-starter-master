@@ -21,17 +21,14 @@ class UnAnsedQList extends Component {
   }
 }
 function mapStateToProps({ authedUser, Questions, Users }) {
-  const AnsedQs = [];
-  const UnAnsedQs = [];
-  Object.entries(Questions).map((q) => {
-    const op1 = q[1].optionOne.votes;
-    const op2 = q[1].optionTwo.votes;
-    if (!op1.includes(authedUser) && !op2.includes(authedUser)) {
-      UnAnsedQs.push(q[1].id);
-    } else {
-      AnsedQs.push(q[1].id);
-    }
-  });
+ 
+
+  const AnsedQs = Object.keys(Users[authedUser].answers)
+
+  const UnAnsedQs = Object.keys(Questions).filter( function( el ) {
+    return AnsedQs.indexOf( el ) < 0;
+  } );
+
 
   return {
     QuestionsIds: UnAnsedQs.sort((a, b) => {

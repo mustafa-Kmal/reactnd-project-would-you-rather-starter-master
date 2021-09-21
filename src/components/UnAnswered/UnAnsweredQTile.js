@@ -7,14 +7,10 @@ import Figure from "react-bootstrap/Figure";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
-// import { render } from "@testing-library/react";
 import { Link } from "react-router-dom";
-// import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class UnAnsweredQTile extends Component {
   render() {
-    // console.log(this.props);
-
     return (
       <div className='App'>
         <Card
@@ -46,10 +42,7 @@ class UnAnsweredQTile extends Component {
                   <Card.Title> Would you rather... </Card.Title>
                   <Card.Text>{this.props.optionOne.text}</Card.Text>
 
-                  <Button
-                    variant='secondary'
-                    size='md'
-                   >
+                  <Button variant='secondary' size='md'>
                     <Link
                       className='link'
                       to={`/questions/question:${this.props.id}`}>
@@ -66,10 +59,7 @@ class UnAnsweredQTile extends Component {
   }
 }
 
-function mapStateToProps(
-  { authedUser, Questions, Users },
-  { id }
-) {
+function mapStateToProps({ authedUser, Questions, Users }, { id }) {
   const question = Questions[id];
   const avatar = Users[question.author].avatarURL;
   return {
@@ -79,7 +69,6 @@ function mapStateToProps(
     author: Users[question.author].name,
 
     id,
-
   };
 }
 

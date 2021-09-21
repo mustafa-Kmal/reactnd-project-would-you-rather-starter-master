@@ -8,7 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { handleSaveQuestionAnswer } from "../../actions/questions";
-import {  withRouter, Link } from "react-router-dom";
+import {  withRouter } from "react-router-dom";
 
 
 class QuestionCard extends Component {

@@ -35,7 +35,7 @@ class Home extends Component {
             </Nav.Item>
           </Nav>
         </header>
-        <body className='App-header '>
+        <div className='App-header '>
           <Route exact path='/questions'>
             <Redirect to='/questions/U' />
           </Route>
@@ -46,15 +46,13 @@ class Home extends Component {
           <Route path='/questions/U'>
             <UnAnsedQList />
           </Route>
-        </body>
+        </div>
       </div>
     );
   }
 }
 
 function mapStateToProps({ authedUser, Questions, Users }) {
-  const authed = Users[authedUser];
-  console.log('9999999999999999' , authedUser)
 
 
   return {
