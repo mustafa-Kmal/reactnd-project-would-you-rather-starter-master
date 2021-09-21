@@ -53,12 +53,17 @@ class Home extends Component {
 }
 
 function mapStateToProps({ authedUser, Questions, Users }) {
+  const authed = Users[authedUser];
+  console.log('9999999999999999' , authedUser)
+
+
   return {
     QuestionsIds: Object.keys(Questions),
     questions: Questions,
     authedUser,
 
     Users,
+    
   };
 }
 

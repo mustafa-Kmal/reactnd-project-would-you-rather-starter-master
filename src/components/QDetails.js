@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Results from "./Answered/Results";
 import QuestionCard from "./UnAnswered/QuestionCard";
 import NotFound from "./NotFound";
+import authedUser from "../reducers/AuthedUser";
 
 class QDetails extends Component {
   componentDidMount() {
@@ -42,15 +43,36 @@ class QDetails extends Component {
   };
 
   isQAnsed = (id) => {
-    const is = Object.keys(this.props.authed.answers).includes(
-      this.getIdfromURL()
-    )
-      ? true
-      : false;
+    if (this.isInDataBase()) {
+      const authed = this.props.Users[this.props.authedUser];
+      const userID = this.props.Users[this.props.authedUser].id;
+      const optionOneVotes =
+        this.props.Questions[this.getIdfromURL()].optionOne.votes;
+      const optionTwoVotes =
+        this.props.Questions[this.getIdfromURL()].optionTwo.votes;
+      const isAnsedByCurrentUser =
+        optionOneVotes.includes(userID) || optionTwoVotes.includes(userID);
+      return isAnsedByCurrentUser;
+    }
 
-    is === true && this.rerenderToResults();
+    // console.log(
 
-    return is;
+    //   'optionOne vots Are       ', optionOneVotes,
+    //   'optionTwo vots Are      ', optionTwoVotes,
+    //   'user id is ',userID,
+    //   'has the user anwered this question? ' , isAnsedByCurrentUser
+
+    // );
+
+    // const is = Object.keys(this.props.authed.answers).includes(
+    //   this.getIdfromURL()
+    // )
+    //   ? true
+    //   : false;
+
+    // is === true && this.rerenderToResults();
+
+    // // return is;
   };
 
   isInDataBase = () => {
@@ -65,8 +87,9 @@ class QDetails extends Component {
   render() {
     return (
       <div>
+        {console.log("fffffffffffffffffffffffff", this.isInDataBase())}
         {this.isInDataBase() ? (
-          this.isQAnsed === false ? (
+          this.isQAnsed() === false ? (
             <QuestionCard
               id={this.getIdfromURL()}
               rerenderToResults={this.rerenderToResults}
@@ -84,9 +107,11 @@ class QDetails extends Component {
 
 function mapStateToProps({ authedUser, Users, Questions }) {
   const authed = Users[authedUser];
+  console.log("9999999999999999", authed);
 
   return {
     authed,
+    Users,
 
     authedUser,
     Questions,

@@ -4,18 +4,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/Login";
 import {
-  // BrowserRouter,
+  Redirect,
   Route,
   Switch,
-  // Redirect,
   withRouter,
 } from "react-router-dom";
-// import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleInitialUsers, handleInitialDataUser } from "./actions/shared";
-// import Dashboard from "./components/Dashboard";
 import NotFound from "./components/NotFound";
-// import PrivateRoute from "./components/PrivateRoute";
 import QDetails from "./components/QDetails";
 import NavList from "./components/NavList";
 import Home from "./components/Home";
@@ -48,8 +44,6 @@ class App extends Component {
           <NavList />
         </header>
         <Fragment>
-    
-
           {!this.props.logged ? (
             <Login handleChoosenUser={this.handleChoosenUser} />
           ) : (
@@ -58,10 +52,12 @@ class App extends Component {
                 <Route path='/question:id' render={() => <QDetails />} />
               )}
 
+              <Route exact path='/Login'>
+                <Redirect to='/questions' />
+              </Route>
               <Route path='/questions'>
                 <Home />
               </Route>
-           
 
               <Route path='/add'>
                 <NewQuestionCard />

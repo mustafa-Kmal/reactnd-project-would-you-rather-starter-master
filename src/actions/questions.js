@@ -1,4 +1,5 @@
 import { saveQuestion, saveQuestionAnswer } from "../utils/api";
+import {addUserAnswer} from './users'
 
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const ADD_QUESTION = "ADD_QUESTION";
@@ -71,3 +72,14 @@ export function handleSaveQuestionAnswer(info) {
     });
   };
 }
+
+// export function handleSaveQuestionAnswer(optionOneText, optionTwoText, author) {
+//   return dispatch => {
+//     return saveQuestion({ optionOneText, optionTwoText, author }).then(
+//       question => {
+//         dispatch(SaveQuestionAnswer(question));
+//         // dispatch(addQuestionToUser(question));
+//       }
+//     );
+//   };
+// }

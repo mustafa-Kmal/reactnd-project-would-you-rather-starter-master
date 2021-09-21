@@ -19,6 +19,7 @@ export default function questions(state = {}, action) {
       };
 
     case SAVE_QUESTION_ANSWER:
+      console.log('action.authedUser' , action.authedUser)
       return {
         ...state,
         [action.qid]: {

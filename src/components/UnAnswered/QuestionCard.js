@@ -8,6 +8,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { handleSaveQuestionAnswer } from "../../actions/questions";
+import {  withRouter, Link } from "react-router-dom";
+
 
 class QuestionCard extends Component {
   handleAnswer = (qid, answer) => {
@@ -44,7 +46,10 @@ class QuestionCard extends Component {
               <Col>
                 {" "}
                 <Card.Body>
-                  <Card.Title> Would you rather... </Card.Title>
+                  <Card.Title> Would you rather... 
+                  {console.log('nnnnnnnnnnnns',this.props.history.location.pathname)}
+
+                     </Card.Title>
                   <div className='btn-group'>
                     <Button
                       className='btn btn-primary btn-block'
@@ -55,7 +60,12 @@ class QuestionCard extends Component {
 
                         this.props.rerenderToResults();
                       }}>
+                      
+                      {/* <Link className='link' to={this.props.history.location.pathname}> */}
+
                       {this.props.optionOne.text}
+
+                      {/* </Link> */}
                     </Button>
 
                     <Button
@@ -106,4 +116,4 @@ function mapStateToProps(
   };
 }
 
-export default connect(mapStateToProps)(QuestionCard);
+export default withRouter(connect(mapStateToProps)(QuestionCard));

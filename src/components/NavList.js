@@ -49,7 +49,7 @@ class NavList extends Component {
                 
                 >
                 Question details{" "}
-              </NavLink>{console.log('hhhhhhhhhhhhhhhhhhh' , this.props.history.location.pathname)}
+              </NavLink>
             </Nav.Link>
           </Nav.Item>
 

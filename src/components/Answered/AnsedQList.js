@@ -7,7 +7,7 @@ import AnsweredQTile from "./AnsweredQTile";
 class AnsedQList extends Component {
   render() {
     return (
-      <div>
+      <div className='App'>
         <ul>
           {this.props.AnsedQs.map((id) => {
             return (
