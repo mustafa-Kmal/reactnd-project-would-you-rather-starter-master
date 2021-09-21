@@ -16,7 +16,6 @@ class UnAnsweredQTile extends Component {
     // console.log(this.props);
 
     return (
-      // <Link to={`/question/${this.props.id}`} className='link'>
       <div className='App'>
         <Card
           size='sm'
@@ -50,9 +49,7 @@ class UnAnsweredQTile extends Component {
                   <Button
                     variant='secondary'
                     size='md'
-                    onClick={() => {
-                      this.props.handleactiveKey("Question details");
-                    }}>
+                   >
                     <Link
                       className='link'
                       to={`/questions/question:${this.props.id}`}>
@@ -65,14 +62,13 @@ class UnAnsweredQTile extends Component {
           </Container>
         </Card>
       </div>
-      // </Link>
     );
   }
 }
 
 function mapStateToProps(
   { authedUser, Questions, Users },
-  { id, handleactiveKey }
+  { id }
 ) {
   const question = Questions[id];
   const avatar = Users[question.author].avatarURL;
@@ -84,7 +80,6 @@ function mapStateToProps(
 
     id,
 
-    handleactiveKey,
   };
 }
 

@@ -4,19 +4,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Login from "./components/Login";
 import {
-  BrowserRouter,
+  // BrowserRouter,
   Route,
   Switch,
-  Redirect,
+  // Redirect,
   withRouter,
 } from "react-router-dom";
 // import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { handleInitialUsers, handleInitialDataUser } from "./actions/shared";
-import Dashboard from "./components/Dashboard";
+// import Dashboard from "./components/Dashboard";
 import NotFound from "./components/NotFound";
-import PrivateRoute from "./components/PrivateRoute";
+// import PrivateRoute from "./components/PrivateRoute";
 import QDetails from "./components/QDetails";
+import NavList from "./components/NavList";
+import Home from "./components/Home";
+import LeaderboardList from "./components/Leaderboard/LeaderboardList";
+import NewQuestionCard from "./components/NewQuestionCard";
 
 class App extends Component {
   state = {
@@ -40,66 +44,37 @@ class App extends Component {
   render() {
     return (
       <div className='App App-header'>
+        <header>
+          <NavList />
+        </header>
         <Fragment>
+    
+
           {!this.props.logged ? (
             <Login handleChoosenUser={this.handleChoosenUser} />
           ) : (
             <Switch>
-              {/* <Route path='/questions/question:qid'>
-                <QDetails />
-              </Route> */}
-              <Route
-                path='/'
-                // isLogged={this.isLogged}
-                render={() => {
-                  return this.props.loadingQuestions === true ||
-                    this.props.loadingauthedUser === true ? null : (
-                    <Dashboard />
-                  );
-                }}
-              />
+              {window.location.href.includes("/questions/question:") && (
+                <Route path='/question:id' render={() => <QDetails />} />
+              )}
 
-              {/* <Route exact path='/'>
-                <Redirect to='/questions' />
-              </Route> */}
+              <Route path='/questions'>
+                <Home />
+              </Route>
+           
 
-              <Route path='*' component={NotFound} />
+              <Route path='/add'>
+                <NewQuestionCard />
+              </Route>
+
+              <Route path='/leaderboard'>
+                <LeaderboardList />
+              </Route>
+              <Route path='*'>
+                <NotFound />
+              </Route>
             </Switch>
           )}
-
-          {/* 
-          <Route
-            exact
-            path='/Login'
-            render={() => {
-              return this.props.loadingUsers === true ? null : (
-                <Login
-                  isLogged={this.isLogged}
-                  handleChoosenUser={this.handleChoosenUser}
-                />
-              );
-            }}
-          />
-
-          <Switch>
-
-            <Route
-              path='/'
-              isLogged={this.isLogged}
-              render={() => {
-                return this.props.loadingQuestions === true ||
-                  this.props.loadingauthedUser === true ? null : (
-                  <Dashboard />
-                );
-              }}
-            />
-            <Route path='/'>
-              <Redirect to='/questions' />
-            </Route>
-            <Route path='/questions/question:qid' component={QDetails} />
-
-            <Route path='*' component={NotFound} />
-          </Switch> */}
         </Fragment>
       </div>
     );

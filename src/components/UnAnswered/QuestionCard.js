@@ -8,8 +8,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { handleSaveQuestionAnswer } from "../../actions/questions";
-import { Route } from "react-router-dom";
-import PrivateRoute from "../PrivateRoute";
 
 class QuestionCard extends Component {
   handleAnswer = (qid, answer) => {
@@ -20,82 +18,64 @@ class QuestionCard extends Component {
 
   render() {
     return (
-      <Route
-        path={`/questions/question:${this.props.id}`}
-        // path={`/`}
+      <div className='App'>
+        <Card
+          bg={"dark"}
+          // key={idx}
+          text={"white"}
+          border='dark'
+          style={{ width: "25rem" }}
+          className='mb-2'>
+          <Card.Header>Poll Asked By the user: </Card.Header>
 
-        render={() => {
-          return (
-            <div className='App'>
-             
+          <Container>
+            <Row>
+              <Col xs={3}>
+                {" "}
+                <Figure>
+                  <Figure.Image
+                    width={171}
+                    height={180}
+                    alt='17x18'
+                    src={this.props.avatar}
+                  />
+                </Figure>
+              </Col>
+              <Col>
+                {" "}
+                <Card.Body>
+                  <Card.Title> Would you rather... </Card.Title>
+                  <div className='btn-group'>
+                    <Button
+                      className='btn btn-primary btn-block'
+                      variant='secondary'
+                      size='md'
+                      onClick={() => {
+                        this.handleAnswer(this.props.id, "optionOne");
 
-              <Card
-                bg={"dark"}
-                // key={idx}
-                text={"white"}
-                border='dark'
-                style={{ width: "25rem" }}
-                className='mb-2'>
-                <Card.Header>Poll Asked By the user: </Card.Header>
+                        this.props.rerenderToResults();
+                      }}>
+                      {this.props.optionOne.text}
+                    </Button>
 
-                <Container>
-                  <Row>
-                    <Col xs={3}>
-                      {" "}
-                      <Figure>
-                        <Figure.Image
-                          width={171}
-                          height={180}
-                          alt='17x18'
-                          src={this.props.avatar}
-                        />
-                      </Figure>
-                    </Col>
-                    <Col>
-                      {" "}
-                      <Card.Body>
-                        <Card.Title> Would you rather... </Card.Title>
-                        <div className='btn-group'>
-                          <Button
-                            className='btn btn-primary btn-block'
-                            variant='secondary'
-                            size='md'
-                            onClick={() => {
-                              this.handleAnswer(this.props.id, "optionOne");
+                    <Button
+                      className='btn btn-primary btn-block'
+                      variant='secondary'
+                      size='md'
+                      onClick={() => {
+                        this.handleAnswer(this.props.id, "optionTwo");
 
-                              this.props.rerenderToResults();
-                            }}>
-                            {this.props.optionOne.text}
-                          </Button>
-
-                          <Button
-                            className='btn btn-primary btn-block'
-                            variant='secondary'
-                            size='md'
-                            onClick={() => {
-                              this.handleAnswer(this.props.id, "optionTwo");
-
-                              this.props.rerenderToResults();
-                            }}>
-                            {this.props.optionTwo.text}
-                          </Button>
-                        </div>
-                      </Card.Body>
-                    </Col>
-                  </Row>
-                </Container>
-              </Card>
-
-              {/* {console.log(
-                "kkkkkkkkkkkkkkkkkk",
-                Object.keys(
-                  this.props.Users[this.props.authedUser].answers
-                ).includes(this.props.id)
-              )} */}
-            </div>
-          );
-        }}
-      />
+                        this.props.rerenderToResults();
+                      }}>
+                      {this.props.optionTwo.text}
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Col>
+            </Row>
+          </Container>
+        </Card>
+      </div>
     );
   }
 }

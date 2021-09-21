@@ -3,42 +3,25 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
 import { Component } from "react";
 import AnsweredQTile from "./AnsweredQTile";
-import { Route } from "react-router-dom";
-import PrivateRoute from "../PrivateRoute";
 
 class AnsedQList extends Component {
- 
   render() {
     return (
       <div>
-        <Route
-          path='/questions'
-          render={() => {
+        <ul>
+          {this.props.AnsedQs.map((id) => {
             return (
-              <ul>
-                {this.props.AnsedQs.map((id) => {
-                  return (
-                    <li key={id}>
-                      <AnsweredQTile
-                        id={id}
-                        handleactiveKey={this.props.handleactiveKey}
-                      />
-                    </li>
-                  );
-                })}
-              </ul>
+              <li key={id}>
+                <AnsweredQTile id={id} />
+              </li>
             );
-          }}
-        />
+          })}
+        </ul>
       </div>
     );
   }
 }
-function mapStateToProps(
-  { Questions, Users, authedUser },
-) {
-  
-
+function mapStateToProps({ Questions, Users, authedUser }) {
   const AnsedQs = [];
   const UnAnsedQs = [];
 
@@ -52,23 +35,12 @@ function mapStateToProps(
     }
   });
 
-
-
-
-
-
-
-
   return {
     QuestionsIds: AnsedQs.sort((a, b) => {
       return Questions[b].timestamp - Questions[a].timestamp;
     }),
     questions: Questions,
     users: Users,
-
-    // handleId,
-    // handleactiveKey,
-    // // AnsedQs: Object.keys( Users[authedUser].answers),
     AnsedQs,
   };
 }

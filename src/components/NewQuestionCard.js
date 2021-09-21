@@ -9,7 +9,6 @@ import Form from "react-bootstrap/Form";
 import { handleAddQuestion } from "../actions/questions";
 import { connect } from "react-redux";
 import { Route, Link } from "react-router-dom";
-// import PrivateRoute from "../components/PrivateRoute";
 
 class NewQuestionCard extends Component {
   state = {
@@ -48,9 +47,6 @@ class NewQuestionCard extends Component {
       optionOneText: "",
       optionTwoText: "",
     }));
-
-    this.props.toggleTabView('Home');
-    this.props.HomeActiveKey("Unanswered Questions")
   };
   render() {
     return (
@@ -61,7 +57,6 @@ class NewQuestionCard extends Component {
             <div className='App'>
               <Card
                 bg={"dark"}
-                // key={idx}
                 text={"white"}
                 border='dark'
                 style={{ width: "25rem" }}
@@ -99,12 +94,9 @@ class NewQuestionCard extends Component {
                         this.state.optionTwo === ""
                       }
                       onClick={this.handleAddNewQ}
-                      // onClick={() => {
-                      //   this.handleAddNewQ;
-                      //   this.props.toggleTabView;
-                      // }}
+                   
                     >
-                      <Link className='link' to='/questions'>
+                      <Link className='link' to='/questions/U'>
                         Submit
                       </Link>
                     </Button>

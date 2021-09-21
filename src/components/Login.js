@@ -4,18 +4,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import { Card } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Route, Link, Redirect, withRouter } from "react-router-dom";
+import {  withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import PrivateRoute from "./PrivateRoute";
 import Button from "react-bootstrap/Button";
-import { createBrowserHistory } from "history";
 
 class Login extends Component {
-  // componentDidMount() {
-  //   this.setState(() => ({
-  //     upadteFrom: this.props.customHistory.location.state.from,
-  //   }));
-  // }
+
   state = {
     selelctedUser: "",
     toHome: false,
@@ -32,8 +26,6 @@ class Login extends Component {
   };
 
   setSelectedUser = () => {
-    // e.preventDefault()
-
     this.props.handleChoosenUser(this.state.selelctedUser);
     
   };
@@ -83,12 +75,8 @@ class Login extends Component {
             }}
 
             disabled={this.state.selelctedUser === ""}>
-            <Link
-              to={`/questions`}
-              className='link'
-            >
               Log in
-            </Link>
+      
           </Button>
         </Container>
       </Card>
@@ -98,14 +86,13 @@ class Login extends Component {
 
 function mapStateToProps(
   { Users, authedUser },
-  { handleChoosenUser, isLogged }
+
 ) {
 
 
   return {
     UsersIds: Object.keys(Users),
     Users,
-    isLogged,
     authedUser,
   };
 }

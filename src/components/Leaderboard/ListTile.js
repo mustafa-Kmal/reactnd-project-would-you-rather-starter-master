@@ -14,7 +14,6 @@ class ListTile extends Component {
       <div className='App'>
         <Card
           bg={"dark"}
-          // key={idx}
           text={"white"}
           border='dark'
           style={{ width: "100%" }}
@@ -83,8 +82,6 @@ function mapStateToProps({ authedUser, Users }, { id }) {
 
     Id: id,
     user: User
-
-    // .sort((a,b)=> { questions[b].timestamp - questions[a].timestamp})
   };
 }
 

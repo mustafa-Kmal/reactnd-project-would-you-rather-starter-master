@@ -12,20 +12,14 @@ import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 // import { BrowserRouter as Routesr, Route } from "react-router-dom";
-import Results from "../Answered/Results";
-
+// import Results from "../Answered/Results";
 
 class AnsweredQTile extends Component {
-  // handleShowing = (id) => {
-  //   this.props.toggleView();
-  //   this.props.handleId(id);
-  // };
   render() {
     return (
       <Card
         size='sm'
         bg={"dark"}
-        // key={idx}
         text={"white"}
         border='dark'
         style={{ width: "25rem" }}
@@ -49,24 +43,12 @@ class AnsweredQTile extends Component {
                 <Card.Title> Would you rather... </Card.Title>
                 <Card.Text>{this.props.optionOne.text}</Card.Text>
 
-                <Button
-                  variant='secondary'
-                  size='md'
-                  onClick={() => {
-                  //  return this.handleShowing(this.props.id);
-                  }}>
+                <Button variant='secondary' size='md' onClick={() => {}}>
                   <Link
                     className='link'
-                    to={`/questions/question:${this.props.id}`}
-                    onClick={() => {
-                      this.props.handleactiveKey('Question details')
-                    }}
-                  >
+                    to={`/questions/question:${this.props.id}`}>
                     View This Poll
-
-                   
                   </Link>
-                  {/* <Results id ={this.props.id}/> */}
                 </Button>
               </Card.Body>
             </Col>
@@ -77,10 +59,7 @@ class AnsweredQTile extends Component {
   }
 }
 
-function mapStateToProps(
-  { authedUser, Questions, Users },
-  { id,  handleactiveKey }
-) {
+function mapStateToProps({ authedUser, Questions, Users }, { id }) {
   const question = Questions[id];
   const avatar = Users[question.author].avatarURL;
   return {
@@ -90,8 +69,6 @@ function mapStateToProps(
     author: Users[question.author].name,
     avatar,
     id,
-    handleactiveKey
-
   };
 }
 

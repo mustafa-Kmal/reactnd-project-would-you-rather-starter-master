@@ -1,23 +1,20 @@
 import React, { Component } from "react";
 
-// import "../App.css";
-import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
-import { Link, Route, useParams } from "react-router-dom";
-import PrivateRoute from "./PrivateRoute";
 import Results from "./Answered/Results";
 import QuestionCard from "./UnAnswered/QuestionCard";
 import NotFound from "./NotFound";
 
-
 class QDetails extends Component {
   componentDidMount() {
+    console.log("received id is", this.props);
     this.setState(() => ({
       isAnsed: this.isQAnsed(),
     }));
   }
   state = {
+    id: "",
     isAnsed: false,
   };
 
@@ -66,24 +63,21 @@ class QDetails extends Component {
   };
 
   render() {
-
-    {!this.isInDataBase()&&
-    <NotFound/ >
-    
-    }
     return (
-      <Route path='/questions/question:'>
-        <div>
-          {this.state.isAnsed === false ? (
+      <div>
+        {this.isInDataBase() ? (
+          this.isQAnsed === false ? (
             <QuestionCard
               id={this.getIdfromURL()}
               rerenderToResults={this.rerenderToResults}
             />
           ) : (
             <Results id={this.getIdfromURL()} />
-          )}
-        </div>
-      </Route>
+          )
+        ) : (
+          <NotFound />
+        )}
+      </div>
     );
   }
 }
@@ -100,3 +94,8 @@ function mapStateToProps({ authedUser, Users, Questions }) {
 }
 
 export default connect(mapStateToProps)(QDetails);
+
+/**
+ * 
+ http://localhost:3000/questions/question:am8ehyc8byjqgar0jgpub9
+ */
