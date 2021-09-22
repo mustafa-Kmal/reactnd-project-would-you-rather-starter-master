@@ -14,24 +14,24 @@ class Home extends Component {
       <div className='App second-tab'>
         <header>
           <Nav className='tab link ' activeKey='Unanswered Questions'>
-            <Nav.Item>
-              <Nav.Link eventKey='Answered Questions'>
+            <Nav.Item  className='padding'>
+              {/* <Nav.Link eventKey='Answered Questions'> */}
                 {" "}
                 <NavLink className='tabLink' to='/questions/A'>
                   {" "}
                   Answered Questions{" "}
                 </NavLink>{" "}
-              </Nav.Link>
+              {/* </Nav.Link> */}
             </Nav.Item>
 
-            <Nav.Item>
-              <Nav.Link eventKey='Unanswered Questions'>
+            <Nav.Item className='padding'>
+              {/* <Nav.Link eventKey='Unanswered Questions'> */}
                 {" "}
                 <NavLink className='tabLink' to='/questions/U'>
                   {" "}
                   Unanswered Questions{" "}
                 </NavLink>{" "}
-              </Nav.Link>
+              {/* </Nav.Link> */}
             </Nav.Item>
           </Nav>
         </header>

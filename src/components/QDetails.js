@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import { connect } from "react-redux";
@@ -6,100 +6,45 @@ import Results from "./Answered/Results";
 import QuestionCard from "./UnAnswered/QuestionCard";
 import NotFound from "./NotFound";
 
-class QDetails extends Component {
-  componentDidMount() {
-    console.log("received id is", this.props);
-    this.setState(() => ({
-      isAnsed: this.isQAnsed(),
-    }));
-  }
-  state = {
-    id: "",
-    isAnsed: false,
-  };
-
-  rerenderToResults = () => {
-    const ansss = this.state.isAnsed;
-    ansss === false &&
-      this.setState({
-        isAnsed: !ansss,
-      });
-  };
-
-  setToQuestionsView = () => {
-    this.setState(() => ({
-      isAnsed: false,
-    }));
-  };
-
-  getIdfromURL = () => {
+function QDetails(props) {
+  function getIdfromURL() {
     if (window.location.href.includes("question:")) {
       const length = window.location.href.length;
       const index = window.location.href.indexOf("n:");
       const ddid = window.location.href.substring(index + 2, length);
       return ddid;
     }
-  };
+  }
 
-  isQAnsed = (id) => {
-    // if (this.isInDataBase()) {
-    //   const authed = this.props.Users[this.props.authedUser];
-    //   const userID = this.props.Users[this.props.authedUser].id;
-    //   const optionOneVotes =
-    //     this.props.Questions[this.getIdfromURL()].optionOne.votes;
-    //   const optionTwoVotes =
-    //     this.props.Questions[this.getIdfromURL()].optionTwo.votes;
-    //   const isAnsedByCurrentUser =
-    //     optionOneVotes.includes(userID) || optionTwoVotes.includes(userID);
-    //   return isAnsedByCurrentUser;
-    // }
+  function isQAnsed() {
+    if (isInDataBase()) {
+      const is = Object.keys(props.authed.answers).includes(getIdfromURL())
+        ? true
+        : false;
 
+      return is;
+    }
+  }
 
-
-
-    if (this.isInDataBase()) {
-        const is = Object.keys(this.props.authed.answers).includes(
-            this.getIdfromURL()
-          )
-            ? true
-            : false;
-      
-          is === true && this.rerenderToResults();
-      
-          // return is;
-
-        return is;
-      }
-
-  };
-
-  isInDataBase = () => {
-    const isAQuestion = Object.keys(this.props.Questions).includes(
-      this.getIdfromURL()
-    )
+  function isInDataBase() {
+    const isAQuestion = Object.keys(props.Questions).includes(getIdfromURL())
       ? true
       : false;
     return isAQuestion;
-  };
-
-  render() {
-    return (
-      <div>
-        {this.isInDataBase() ? (
-          this.isQAnsed() === false ? (
-            <QuestionCard
-              id={this.getIdfromURL()}
-              rerenderToResults={this.rerenderToResults}
-            />
-          ) : (
-            <Results id={this.getIdfromURL()} />
-          )
-        ) : (
-          <NotFound />
-        )}
-      </div>
-    );
   }
+  return (
+    <div>
+      {isInDataBase() ? (
+        isQAnsed() === false ? (
+          <QuestionCard id={getIdfromURL()} />
+        ) : (
+          <Results id={getIdfromURL()} />
+        )
+      ) : (
+        <NotFound />
+      )}
+    </div>
+  );
 }
 
 function mapStateToProps({ authedUser, Users, Questions }) {

@@ -8,8 +8,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { connect } from "react-redux";
 import { handleSaveQuestionAnswer } from "../../actions/questions";
-import {  withRouter } from "react-router-dom";
-
+import { withRouter } from "react-router-dom";
 
 class QuestionCard extends Component {
   handleAnswer = (qid, answer) => {
@@ -28,9 +27,11 @@ class QuestionCard extends Component {
           border='dark'
           style={{ width: "25rem" }}
           className='mb-2'>
-          <Card.Header> Poll Asked By: 
-          {`     ${this.props.Users[this.props.author].name}`}
-             </Card.Header>
+          <Card.Header>
+            {" "}
+            Poll Asked By:
+            {`     ${this.props.Users[this.props.author].name}`}
+          </Card.Header>
 
           <Container>
             <Row>
@@ -48,9 +49,7 @@ class QuestionCard extends Component {
               <Col>
                 {" "}
                 <Card.Body>
-                  <Card.Title> Would you rather... 
-
-                     </Card.Title>
+                  <Card.Title> Would you rather...</Card.Title>
                   <div className='btn-group'>
                     <Button
                       className='btn btn-primary btn-block'
@@ -58,10 +57,7 @@ class QuestionCard extends Component {
                       size='md'
                       onClick={() => {
                         this.handleAnswer(this.props.id, "optionOne");
-
-                        this.props.rerenderToResults();
                       }}>
-                      
                       {/* <Link className='link' to={this.props.history.location.pathname}> */}
 
                       {this.props.optionOne.text}
@@ -75,8 +71,6 @@ class QuestionCard extends Component {
                       size='md'
                       onClick={() => {
                         this.handleAnswer(this.props.id, "optionTwo");
-
-                        this.props.rerenderToResults();
                       }}>
                       {this.props.optionTwo.text}
                     </Button>
@@ -91,21 +85,9 @@ class QuestionCard extends Component {
   }
 }
 
-function mapStateToProps(
-  { authedUser, Questions, Users },
-  {
-    id,
-
-    rerenderToResults,
-  }
-) {
+function mapStateToProps({ authedUser, Questions, Users }, { id }) {
   const Question = Questions[id];
   const avatar = Users[Question.author].avatarURL;
-  // console.log(
-
-  //  '00000000000',Users[Question.author].name
-
-  // )
 
   return {
     authedUser,
@@ -117,7 +99,6 @@ function mapStateToProps(
     id,
 
     avatar,
-    rerenderToResults,
     Users,
   };
 }
