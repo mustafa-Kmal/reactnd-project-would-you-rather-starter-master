@@ -31,9 +31,7 @@ class NewQuestionCard extends Component {
     }));
   };
 
-  handleAddNewQ = (e) => {
-    e.preventDefault();
-  
+  handleAddNewQ = () => {
     const { optionOneText, optionTwoText } = this.state;
     const { dispatch } = this.props;
 
@@ -93,10 +91,12 @@ class NewQuestionCard extends Component {
                         this.state.optionOne === "" ||
                         this.state.optionTwo === ""
                       }
-                      onClick={this.handleAddNewQ}
-                   
+                      // onClick={()=>this.handleAddNewQ()}
                     >
-                      <Link className='link' to='/questions/U'>
+                      <Link
+                        className='link'
+                        to='/questions/U'
+                        onClick={() => this.handleAddNewQ()}>
                         Submit
                       </Link>
                     </Button>
@@ -111,13 +111,12 @@ class NewQuestionCard extends Component {
   }
 }
 
-function mapStateToProps({ authedUser }, { toggleTabView , HomeActiveKey }) {
+function mapStateToProps({ authedUser }, { toggleTabView, HomeActiveKey }) {
   return {
     authedUser,
     toggleTabView,
-    HomeActiveKey
+    HomeActiveKey,
   };
-
 }
 
 export default connect(mapStateToProps)(NewQuestionCard);
