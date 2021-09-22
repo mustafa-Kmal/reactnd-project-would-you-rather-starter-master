@@ -28,7 +28,9 @@ class QuestionCard extends Component {
           border='dark'
           style={{ width: "25rem" }}
           className='mb-2'>
-          <Card.Header>Poll Asked By the user: </Card.Header>
+          <Card.Header> Poll Asked By: 
+          {`     ${this.props.Users[this.props.author].name}`}
+             </Card.Header>
 
           <Container>
             <Row>
@@ -47,7 +49,6 @@ class QuestionCard extends Component {
                 {" "}
                 <Card.Body>
                   <Card.Title> Would you rather... 
-                  {console.log('nnnnnnnnnnnns',this.props.history.location.pathname)}
 
                      </Card.Title>
                   <div className='btn-group'>
@@ -100,6 +101,11 @@ function mapStateToProps(
 ) {
   const Question = Questions[id];
   const avatar = Users[Question.author].avatarURL;
+  // console.log(
+
+  //  '00000000000',Users[Question.author].name
+
+  // )
 
   return {
     authedUser,

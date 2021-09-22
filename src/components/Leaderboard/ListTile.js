@@ -66,12 +66,9 @@ class ListTile extends Component {
 
 function mapStateToProps({ authedUser, Users }, { id }) {
   const User = Users[id];
-  const Answers =
-    typeof User.answers !== "undefined" ? Object.keys(User.answers).length : 0;
-  const Questions =
-    typeof User.questions !== "undefined"
-      ? Object.keys(User.questions).length
-      : 0;
+  const Answers =  Object.keys(User.answers).length
+  const Questions =  User.questions.length
+   
   const Points = Answers + Questions;
 
   return {
