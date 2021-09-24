@@ -18,6 +18,10 @@ npm start
 ```
 * A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/Login in your browser  
 
+* To see a deployed version of the app go to: https://614e086fba70180b9ae5ce20--unruffled-franklin-5526de.netlify.app/questions/U
+
+
+
 ## Issues with the app functionality 
 
 * Private routes didn't work properly. PrivateRoute component doesn't correctly check if the authedUser is a thing and hence, doesn't redirect to the main page intended 
