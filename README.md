@@ -18,7 +18,7 @@ npm start
 ```
 * A new browser window should automatically open displaying the app. If it doesn't, navigate to http://localhost:3000/Login in your browser  
 
-* To see a deployed version of the app go to: https://master--unruffled-franklin-5526de.netlify.app/
+* To see a deployed version of the app go to: https://unruffled-franklin-5526de.netlify.app/
 
 
 
